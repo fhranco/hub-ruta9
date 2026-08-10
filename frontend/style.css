@@ -1344,7 +1344,7 @@ body.theme-wellness .bottom-carousel-bar {
 
 /* Escalar textos y elementos para perfecta visibilidad a distancia en TV de 42" */
 .lite-mode .product-title {
-    font-size: 2.8rem !important;
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem) !important;
 }
 .lite-mode .product-price-plate {
     font-size: 2.5rem !important;
@@ -1577,13 +1577,7 @@ body.theme-wellness .bottom-carousel-bar {
 
 /* Logo arriba a la izquierda */
 .lite-mode .main-header {
-    display: flex !important;
-    position: absolute !important;
-    left: 7vw !important;
-    top: 6vh !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    margin: 0 !important;
+    display: none !important; /* Ocultar el logo en modo TV para optimizar espacio */
 }
 .lite-mode .main-header img {
     height: 5.5rem !important; /* Reducido a tamaño estándar gourmet para evitar desplazamientos */
@@ -1611,7 +1605,7 @@ body.theme-wellness .bottom-carousel-bar {
     margin: 0 !important;
 }
 .lite-mode .product-title {
-    font-size: 2.6rem !important;
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem) !important;
     font-weight: 900 !important;
     color: #ffe600 !important;
     -webkit-text-fill-color: #ffe600 !important;
