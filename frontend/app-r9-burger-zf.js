@@ -159,9 +159,22 @@ class ZFBurgerController {
     if (this.elements.productTag && isBurgerDelMes) {
       this.elements.productTag.style.background = 'linear-gradient(135deg, #FFD700, #FF6600)';
       this.elements.productTag.style.color = '#1a0a00';
-    } else if (this.elements.productTag) {
-      this.elements.productTag.style.background = '';
-      this.elements.productTag.style.color = '';
+    }
+
+    // Actualizar insignia reactiva dinámicamente
+    const popTextEl = document.getElementById('product-pop-text');
+    const popIconEl = document.querySelector('#flavor-pop-badge .pop-icon');
+    if (popTextEl && p) {
+      let popPhrase = { text: '100% GOURMET', icon: '✨' };
+
+      if (isBurgerDelMes) {
+        popPhrase = { text: '¡EDICIÓN LIMITADA!', icon: '👑🌶️' };
+      } else {
+        popPhrase = { text: '100% GOURMET', icon: '👑' };
+      }
+
+      popTextEl.textContent = popPhrase.text;
+      if (popIconEl) popIconEl.textContent = popPhrase.icon;
     }
   }
 

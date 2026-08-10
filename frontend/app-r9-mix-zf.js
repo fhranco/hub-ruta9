@@ -219,6 +219,35 @@ class ZFMixController {
     if (this.elements.productPrice) this.elements.productPrice.textContent = p.price;
     if (this.elements.productTag)   this.elements.productTag.textContent   = p.tag  || '';
     if (this.elements.productDesc)  this.elements.productDesc.textContent  = p.description || '';
+
+    // Actualizar insignia reactiva dinámicamente según el tipo de producto e ingredientes
+    const popTextEl = document.getElementById('product-pop-text');
+    const popIconEl = document.querySelector('#flavor-pop-badge .pop-icon');
+    if (popTextEl && p) {
+      const descUpper = (p.description || '').toUpperCase();
+      const nameUpper = (p.name || '').toUpperCase();
+      
+      let popPhrase = { text: '100% GOURMET', icon: '✨' };
+
+      if (isBM) {
+        popPhrase = { text: '¡EDICIÓN LIMITADA!', icon: '👑🌶️' };
+      } else if (p.id.startsWith('zf-s')) { // Sándwiches
+        if (descUpper.includes('HUEVO') || nameUpper.includes('HUEVO')) {
+          popPhrase = { text: '¡HUEVO CREMOSO & FRESCO!', icon: '🍳' };
+        } else if (descUpper.includes('QUESO') || nameUpper.includes('QUESO')) {
+          popPhrase = { text: '¡FULL QUESO DERRETIDO!', icon: '🧀' };
+        } else {
+          popPhrase = { text: '¡RECETA CASERA!', icon: '🥖' };
+        }
+      } else if (p.id.startsWith('zf-k')) { // Snacks
+        popPhrase = { text: '¡EL ACOMPAÑAMIENTO PERFECTO!', icon: '🍟' };
+      } else { // Hamburguesas
+        popPhrase = { text: '100% GOURMET', icon: '👑' };
+      }
+
+      popTextEl.textContent = popPhrase.text;
+      if (popIconEl) popIconEl.textContent = popPhrase.icon;
+    }
   }
 
   animateToNext() {

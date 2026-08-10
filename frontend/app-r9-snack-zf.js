@@ -163,6 +163,22 @@ class ZFSnackController {
     if (this.elements.productPrice) this.elements.productPrice.textContent = p.price;
     if (this.elements.productTag)   this.elements.productTag.textContent   = p.tag  || '';
     if (this.elements.productDesc)  this.elements.productDesc.textContent  = p.description || '';
+
+    // Actualizar insignia reactiva dinámicamente
+    const popTextEl = document.getElementById('product-pop-text');
+    const popIconEl = document.querySelector('#flavor-pop-badge .pop-icon');
+    if (popTextEl && p) {
+      let popPhrase = { text: '¡EL PICOTEO PERFECTO!', icon: '🍟' };
+
+      if (isBM) {
+        popPhrase = { text: '¡EDICIÓN LIMITADA!', icon: '👑🌶️' };
+      } else {
+        popPhrase = { text: '¡EL ACOMPAÑAMIENTO PERFECTO!', icon: '🍟' };
+      }
+
+      popTextEl.textContent = popPhrase.text;
+      if (popIconEl) popIconEl.textContent = popPhrase.icon;
+    }
   }
 
   animateToNext() {

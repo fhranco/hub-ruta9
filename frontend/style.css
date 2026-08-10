@@ -1462,18 +1462,18 @@ body.theme-wellness .bottom-carousel-bar {
 /* ETIQUETA INSIGNIA DE SUCURSAL ZONA FRANCA */
 .branch-badge-tag {
     position: fixed;
-    top: 15px;
-    right: 25px;
+    top: 10px;
+    right: 15px;
     z-index: 9999;
     background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%);
     border: 1px solid rgba(251, 191, 36, 0.5);
     color: #fbbf24;
     font-family: 'Syne', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.55rem;
     font-weight: 800;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 6px 18px;
+    padding: 3px 10px;
     border-radius: 50px;
     box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
     backdrop-filter: blur(8px);
@@ -1570,10 +1570,13 @@ body.theme-wellness .bottom-carousel-bar {
     top: auto !important;
     left: auto !important;
     bottom: auto !important;
-    margin-top: 2.6rem !important;
-    font-size: 2.1rem !important;
-    padding: 10px 24px !important;
+    margin-top: 1.2rem !important; /* Margen reducido a la mitad para evitar desborde */
+    font-size: 1.1rem !important; /* 50% más pequeño */
+    padding: 6px 14px !important; /* Relleno compacto */
     display: inline-flex !important;
+}
+.lite-mode .flavor-pop-badge .pop-icon {
+    font-size: 1.3rem !important; /* Icono proporcionalmente más chico */
 }
 
 /* Permitir contenedores fluidos */

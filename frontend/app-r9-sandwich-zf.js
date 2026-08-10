@@ -148,6 +148,29 @@ class ZFSandwichController {
     if (this.elements.productPrice) this.elements.productPrice.textContent = p.price;
     if (this.elements.productTag)   this.elements.productTag.textContent   = p.tag  || '';
     if (this.elements.productDesc)  this.elements.productDesc.textContent  = p.description || '';
+
+    // Actualizar insignia reactiva dinámicamente según ingredientes
+    const popTextEl = document.getElementById('product-pop-text');
+    const popIconEl = document.querySelector('#flavor-pop-badge .pop-icon');
+    if (popTextEl && p) {
+      const descUpper = (p.description || '').toUpperCase();
+      const nameUpper = (p.name || '').toUpperCase();
+      
+      let popPhrase = { text: '¡100% GOURMET!', icon: '✨' };
+
+      if (isBM) {
+        popPhrase = { text: '¡EDICIÓN LIMITADA!', icon: '👑🌶️' };
+      } else if (descUpper.includes('HUEVO') || nameUpper.includes('HUEVO')) {
+        popPhrase = { text: '¡HUEVO CREMOSO & FRESCO!', icon: '🍳' };
+      } else if (descUpper.includes('QUESO') || nameUpper.includes('QUESO')) {
+        popPhrase = { text: '¡FULL QUESO DERRETIDO!', icon: '🧀' };
+      } else {
+        popPhrase = { text: '¡RECETA CASERA!', icon: '🥖' };
+      }
+
+      popTextEl.textContent = popPhrase.text;
+      if (popIconEl) popIconEl.textContent = popPhrase.icon;
+    }
   }
 
   animateToNext() {
