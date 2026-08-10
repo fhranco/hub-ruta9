@@ -176,8 +176,8 @@ const server = http.createServer(async (req, res) => {
   // 2. SERVIDOR DE ARCHIVOS ESTÁTICOS
   // ==========================================
   
-  // Normalizar la ruta del archivo estático
-  let safePath = pathName === '/' ? '/r9-burger.html' : pathName;
+  // Normalizar la ruta del archivo estático decodificando caracteres como %20 (espacios)
+  let safePath = pathName === '/' ? '/r9-burger.html' : decodeURIComponent(pathName);
   let filePath = path.join(__dirname, safePath);
 
   // Evitar Directory Traversal para seguridad local
