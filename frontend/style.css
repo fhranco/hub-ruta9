@@ -209,6 +209,18 @@ body.branch-zf.theme-burger-del-mes-red .product-description {
     font-weight: 700 !important;
     text-shadow: 0 3px 10px rgba(0, 0, 0, 0.99) !important;
 }
+
+/* Adaptación segura y proporcional de la Burger del Mes en pantallas de TV (lite-mode) */
+body.theme-burger-del-mes-red.lite-mode .product-title {
+    font-size: clamp(1.5rem, 2.4vw, 2.0rem) !important;
+}
+body.theme-burger-del-mes-red.lite-mode .product-price-plate {
+    font-size: clamp(2.5rem, 4.2vw, 3.5rem) !important;
+}
+body.theme-burger-del-mes-red.lite-mode .product-description {
+    font-size: clamp(1.0rem, 1.6vw, 1.2rem) !important;
+    max-width: 100% !important;
+}
 body.theme-burger-del-mes-red .product-tag-sticker,
 body.theme-burger-del-mes-red .glass-badge,
 body.branch-zf.theme-burger-del-mes-red .product-tag-sticker,
@@ -1344,7 +1356,7 @@ body.theme-wellness .bottom-carousel-bar {
 
 /* Escalar textos y elementos para perfecta visibilidad a distancia en TV de 42" */
 .lite-mode .product-title {
-    font-size: clamp(1.8rem, 3.2vw, 2.5rem) !important;
+    font-size: clamp(1.5rem, 2.4vw, 2.0rem) !important;
 }
 .lite-mode .product-price-plate {
     font-size: 2.5rem !important;
@@ -1605,7 +1617,7 @@ body.theme-wellness .bottom-carousel-bar {
     margin: 0 !important;
 }
 .lite-mode .product-title {
-    font-size: clamp(1.8rem, 3.2vw, 2.5rem) !important;
+    font-size: clamp(1.5rem, 2.4vw, 2.0rem) !important;
     font-weight: 900 !important;
     color: #ffe600 !important;
     -webkit-text-fill-color: #ffe600 !important;
@@ -1614,7 +1626,7 @@ body.theme-wellness .bottom-carousel-bar {
     text-transform: uppercase !important;
 }
 .lite-mode .product-price-plate {
-    font-size: 5.4rem !important;
+    font-size: clamp(2.5rem, 4.2vw, 3.5rem) !important;
     font-weight: 900 !important;
     color: #ffe600 !important;
     -webkit-text-fill-color: #ffe600 !important;
