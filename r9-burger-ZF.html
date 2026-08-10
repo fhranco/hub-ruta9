@@ -34,8 +34,8 @@
         <span style="font-weight: normal; color: rgba(255,255,255,0.85); line-height: 1.4;">
             Estás abriendo esta pantalla directamente desde el disco duro. Para sincronización en tiempo real, debes abrirla mediante el servidor local.
         </span>
-        <a href="http://localhost:8000/r9-burger-ZF.html" id="protocol-link" style="color: #fbbf24; text-decoration: underline; margin-top: 4px; font-weight: 800; text-transform: uppercase; font-size: 11px;">
-            Hacer clic aquí para abrir a través de http://localhost:8000/r9-burger-ZF.html
+        <a href="http://localhost:8000/r9-burger-zf.html" id="protocol-link" style="color: #fbbf24; text-decoration: underline; margin-top: 4px; font-weight: 800; text-transform: uppercase; font-size: 11px;">
+            Hacer clic aquí para abrir a través de http://localhost:8000/r9-burger-zf.html
         </a>
     </div>
 
@@ -259,7 +259,7 @@
             const warning = document.getElementById('protocol-warning');
             const link = document.getElementById('protocol-link');
             if (warning && link) {
-                const filename = window.location.pathname.split('/').pop() || 'r9-burger-ZF.html';
+                const filename = window.location.pathname.split('/').pop() || 'r9-burger-zf.html';
                 link.href = `http://localhost:8000/${filename}`;
                 link.textContent = `Hacer clic aquí para abrir a través de http://localhost:8000/${filename}`;
                 warning.style.display = 'flex';
