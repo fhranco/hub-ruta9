@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Prevención de caché agresiva para Smart TVs -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) caches.delete(name);
+            });
+        }
+    </script>
+    <title>RUTA 9 • Carta General & Barra</title>
+    <!-- Google Fonts: Outfit & Syne -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           ESTILOS MAJESTUOSOS CARTA PANTALLA 4 (BENTO-GRID BLACKBOARD)
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #020202;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(251, 146, 60, 0.08) 0%, rgba(0, 0, 0, 0) 70%),
+                url('frontend/images/bg/road.jpg');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 6vh 7vw; /* Aumentado margen horizontal a 7vw para evitar recortes por overscan en TVs y ajustado vertical a 6vh */
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* HEADER DE LUJO */
+        .menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid rgba(251, 146, 60, 0.15);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-box img {
+            max-height: 65px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+
+        .header-title-box {
+            text-align: right;
+        }
+
+        .menu-badge {
+            background: rgba(251, 146, 60, 0.15);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            color: #fbbf24;
+            padding: 4px 10px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            display: inline-block;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .menu-main-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 40%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ESTRUCTURA BENTO GRID DE 4 COLUMNAS */
+        .menu-bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+            height: calc(88vh - 110px); /* Ajustado para caber perfectamente con el margen del 6% en landscape */
+        }
+
+        /* Columnas Bento */
+        .bento-column {
+            background: rgba(10, 10, 10, 0.65);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 3px solid rgba(251, 146, 60, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+        }
+
+        .bento-column::-webkit-scrollbar {
+            display: none; /* Ocultar scrollbar en Chrome/Silk */
+        }
+
+        /* Títulos de Secciones */
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #fbbf24;
+            border-bottom: 1px solid rgba(251, 146, 60, 0.15);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-block {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        /* Filas de Ítems Individuales */
+        .menu-item-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .item-name-box {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            max-width: 75%;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .item-subtext {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 300;
+        }
+
+        .item-price {
+            font-weight: 800;
+            color: #fbbf24;
+            font-family: 'Outfit', sans-serif;
+            background: rgba(251, 146, 60, 0.08);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(251, 146, 60, 0.12);
+        }
+
+        /* Estilos Especiales para Destacados */
+        .special-note {
+            background: rgba(251, 146, 60, 0.05);
+            border-left: 2px solid #fbbf24;
+            padding: 8px 10px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .special-title {
+            color: #fbbf24;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        /* Estilo para los Extras Agrupados */
+        .extras-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 0.75rem;
+        }
+
+        .extra-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 6px 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .extra-name {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .extra-price {
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        /* ==========================================================================
+           RESPONSIVIDAD VERTICAL (PORTRAIT / VERTICAL MENU BOARD)
+           ========================================================================== */
+        @media (orientation: portrait), (max-width: 900px) {
+            body {
+                height: auto;
+                overflow-y: auto;
+                padding: 20px 15px;
+            }
+            .menu-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                align-items: center;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+            .header-title-box {
+                text-align: center;
+            }
+            .menu-bento-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columnas legibles en vertical */
+                height: auto;
+                gap: 15px;
+                padding-bottom: 40px;
+            }
+            .bento-column {
+                overflow-y: visible;
+                height: auto;
+                padding: 15px;
+                gap: 15px;
+            }
+        }
+        @media (max-width: 580px) {
+            .menu-bento-grid {
+                grid-template-columns: 1fr; /* 1 sola columna en dispositivos móviles o mini pantallas */
+            }
+        }
+
+        /* PORTAL DE BIENVENIDA / INTERACCIÓN INICIAL */
+        .welcome-portal {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(2, 2, 4, 0.97);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+        .welcome-card {
+            position: relative;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            padding: 4rem 3rem;
+            border-radius: 36px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(15, 15, 18, 0.5);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+        .welcome-card img {
+            height: 7rem;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+        .welcome-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            font-family: 'Syne', sans-serif;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+        .welcome-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #94a3b8;
+            max-w: 80%;
+            margin: 0 auto;
+        }
+        .welcome-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #000000;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-size: 0.8rem;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.25);
+            animation: welcome-pulse 1.8s infinite;
+        }
+        @keyframes welcome-pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.25); }
+            50% { opacity: 0.9; box-shadow: 0 10px 35px rgba(217, 119, 6, 0.45); }
+        }
+        .opacity-0 {
+            opacity: 0 !important;
+        }
+        .pointer-events-none {
+            pointer-events: none !important;
+        }
+
+        /* ALERTA RELÁMPAGO (#alert-overlay) */
+        .overlay-fullscreen {
+            position: fixed;
+            inset: 0;
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(2, 2, 4, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.96);
+        }
+        .overlay-fullscreen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .alert-prestige-card {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            padding: 4rem 5rem;
+            border-radius: 36px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(15, 15, 18, 0.7);
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.6),
+                inset 0 1px 2px rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .alert-pill {
+            align-self: center;
+            background: #fbbf24;
+            color: #000000;
+            font-size: 0.8rem;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            padding: 0.5rem 1.8rem;
+            border-radius: 50px;
+        }
+        .alert-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            font-family: 'Syne', sans-serif;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+        .alert-message-text {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.3;
+            color: #fbbf24;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            text-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+        }
+        .alert-footer-note {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           LITE MODE (SMART TV PERFORMANCE BOOSTER)
+           ========================================================================== */
+        .lite-mode .bento-column,
+        .lite-mode .welcome-portal,
+        .lite-mode .welcome-card,
+        .lite-mode .overlay-fullscreen,
+        .lite-mode .alert-prestige-card {
+            /* REMOVER COMPLETAMENTE EL BACKDROP FILTER PARA EVITAR LAG EN EL STICK 1.7 */
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+
+        .lite-mode .bento-column,
+        .lite-mode .welcome-portal,
+        .lite-mode .welcome-card,
+        .lite-mode .overlay-fullscreen,
+        .lite-mode .alert-prestige-card {
+            background: rgba(10, 10, 12, 0.94) !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7) !important;
+        }
+
+        .lite-mode .welcome-btn {
+            animation: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Escalar textos y elementos para perfecta visibilidad a distancia en TV de 42" */
+        .lite-mode .menu-main-title {
+            font-size: 2.2rem !important;
+        }
+        .lite-mode .section-title {
+            font-size: 1.3rem !important;
+        }
+        .lite-mode .menu-item-row {
+            font-size: 1.15rem !important;
+        }
+        .lite-mode .item-subtext {
+            font-size: 0.95rem !important;
+        }
+        .lite-mode .item-price {
+            font-size: 1.15rem !important;
+        }
+        .lite-mode .special-note {
+            font-size: 1.05rem !important;
+        }
+
+        /* ==========================================================================
+           PANTALLAS CON ALTURA LIMITADA (PROTECCIÓN DEFENSIVA CONTRA BARRAS DE NAVEGADOR Y ZOOM)
+           ========================================================================== */
+        @media (max-height: 850px) {
+            body {
+                padding: 3vh 6vw !important;
+            }
+            .menu-bento-grid {
+                height: calc(94vh - 100px) !important;
+                gap: 12px !important;
+            }
+            .bento-column {
+                padding: 12px !important;
+                gap: 14px !important;
+            }
+            .lite-mode .menu-main-title {
+                font-size: 1.8rem !important;
+            }
+            .lite-mode .section-title {
+                font-size: 1.1rem !important;
+            }
+            .lite-mode .menu-item-row {
+                font-size: 0.95rem !important;
+            }
+            .lite-mode .item-subtext {
+                font-size: 0.8rem !important;
+            }
+            .lite-mode .item-price {
+                font-size: 0.95rem !important;
+            }
+        }
+
+        @media (max-height: 650px) {
+            body {
+                padding: 2vh 5vw !important;
+            }
+            .menu-bento-grid {
+                height: calc(96vh - 80px) !important;
+                gap: 8px !important;
+            }
+            .bento-column {
+                padding: 8px !important;
+                gap: 10px !important;
+            }
+            .lite-mode .menu-main-title {
+                font-size: 1.4rem !important;
+            }
+            .lite-mode .section-title {
+                font-size: 0.95rem !important;
+            }
+            .lite-mode .menu-item-row {
+                font-size: 0.8rem !important;
+            }
+            .lite-mode .item-subtext {
+                font-size: 0.7rem !important;
+            }
+            .lite-mode .item-price {
+                font-size: 0.8rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BANNER DE ADVERTENCIA PARA PROTOCOLO FILE:// -->
+    <div id="protocol-warning" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(220, 38, 38, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 15px 25px; z-index: 999999; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: bold; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; max-width: 90%; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+        <span style="font-size: 1.1rem;">⚠️ PROTOCOLO DE ARCHIVO DETECTADO (file://)</span>
+        <span style="font-weight: normal; color: rgba(255,255,255,0.85); line-height: 1.4;">
+            Estás abriendo esta pantalla directamente desde el disco duro. Para que la sincronización en tiempo real funcione entre múltiples navegadores y dispositivos, debes abrirla a través del servidor local.
+        </span>
+        <a href="http://localhost:8000/r9-carta.html" id="protocol-link" style="color: #fbbf24; text-decoration: underline; margin-top: 4px; font-weight: 800; text-transform: uppercase; tracking-wider; font-size: 11px;">
+            Hacer clic aquí para abrir a través de http://localhost:8000/r9-carta.html
+        </a>
+    </div>
+
+    <!-- CABECERA -->
+    <header class="menu-header">
+        <div class="logo-box">
+            <img src="frontend/images/logo/Logo-ruta9.png" alt="Ruta 9 Gourmet Logo" />
+        </div>
+        <div class="header-title-box">
+            <span class="menu-badge">BEBESTIBLES & EXTRAS</span>
+            <h1 class="menu-main-title">Carta General & Barra</h1>
+        </div>
+    </header>
+
+    <!-- CUADRO BENTO GRID DE 4 COLUMNAS -->
+    <main class="menu-bento-grid">
+
+        <!-- COLUMNA 1: BEBIDAS & CAFETERÍA -->
+        <div class="bento-column">
+            
+            <!-- Sección: Bebidas -->
+            <div class="section-block">
+                <h2 class="section-title">🥤 Bebidas Frías</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Agua Mineral</span>
+                        <span class="item-subtext">Con gas o sin gas de 350cc.</span>
+                    </div>
+                    <span class="item-price">$2.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Bebidas en Lata</span>
+                        <span class="item-subtext">Pepsi, 7Up, Crush, Ginger Ale, Bilz, Kem, Pap, Limón Soda.</span>
+                    </div>
+                    <span class="item-price">$2.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Jugos Naturales</span>
+                        <span class="item-subtext">Exprimidos al momento con frutas seleccionadas.</span>
+                    </div>
+                    <span class="item-price">$3.800</span>
+                </div>
+            </div>
+
+            <!-- Sección: Cafetería -->
+            <div class="section-block" style="margin-top: 10px;">
+                <h2 class="section-title">☕ Té & Cafetería</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Espresso Chico</span>
+                        <span class="item-subtext">Carga simple de espresso italiano premium.</span>
+                    </div>
+                    <span class="item-price">$2.000</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Espresso Grande</span>
+                        <span class="item-subtext">Doble carga de espresso para máxima energía.</span>
+                    </div>
+                    <span class="item-price">$2.600</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Café Americano</span>
+                        <span class="item-subtext">Espresso grande suavizado con agua caliente.</span>
+                    </div>
+                    <span class="item-price">$2.600</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Café con Leche</span>
+                        <span class="item-subtext">Espresso premium combinado con leche vaporizada.</span>
+                    </div>
+                    <span class="item-price">$2.800</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Cortado Macchiato</span>
+                        <span class="item-subtext">Espresso cortado con una corona de espuma de leche.</span>
+                    </div>
+                    <span class="item-price">$2.800</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Té e Infusiones</span>
+                        <span class="item-subtext">Selección de tés del mundo e infusiones aromáticas.</span>
+                    </div>
+                    <span class="item-price">$2.600</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLUMNA 2: BARRA & COCTELERÍA -->
+        <div class="bento-column">
+            
+            <!-- Sección: Micheladas -->
+            <div class="section-block">
+                <h2 class="section-title">🌶️ Micheladas</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Chelada Tradicional</span>
+                        <span class="item-subtext">Vaso escarchado con sal gruesa de mar y abundante jugo de limón.</span>
+                    </div>
+                    <span class="item-price">$5.400</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Michelada Merkén</span>
+                        <span class="item-subtext">Escarchado tradicional chileno con merkén ahumado.</span>
+                    </div>
+                    <span class="item-price">$5.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Michelada Tabasco</span>
+                        <span class="item-subtext">Para los audaces: salsa Tabasco original y especias.</span>
+                    </div>
+                    <span class="item-price">$5.800</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Michelada Sriracha</span>
+                        <span class="item-subtext">Toque asiático picante con salsa sriracha y limón.</span>
+                    </div>
+                    <span class="item-price">$6.000</span>
+                </div>
+            </div>
+
+            <!-- Sección: Sours & Vinos -->
+            <div class="section-block" style="margin-top: 10px;">
+                <h2 class="section-title">🍸 Coctelería & Vinos</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Pisco Sour Tradicional</span>
+                        <span class="item-subtext">Receta de la casa batida al momento (450cc).</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Pisco Sour Mango</span>
+                        <span class="item-subtext">Exquisito sour batido con pulpa de mango natural.</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Pisco Sour Calafate</span>
+                        <span class="item-subtext">Sello patagónico: sour macerado con frutos de calafate.</span>
+                    </div>
+                    <span class="item-price">$5.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Pisco Sour Ruibarbo</span>
+                        <span class="item-subtext">Sour batido con compota artesanal de ruibarbo silvestre.</span>
+                    </div>
+                    <span class="item-price">$5.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Copa de Vino</span>
+                        <span class="item-subtext">Variedades Cabernet o Sauvignon Blanc (200cc).</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Botella Vino Tinto / Blanco</span>
+                        <span class="item-subtext">Botella seleccionada de 750cc para compartir.</span>
+                    </div>
+                    <span class="item-price">$15.000</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLUMNA 3: CERVEZAS AUSTRAL & PATAGONIA -->
+        <div class="bento-column">
+            
+            <!-- Sección: Cervezas en Botella -->
+            <div class="section-block">
+                <h2 class="section-title">🍺 Cervezas en Botella</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Cerveza Austral 330cc</span>
+                        <span class="item-subtext">Variedades: Lager clásica, Calafate robusto, Yagan dark, Patagonia Hoppy.</span>
+                    </div>
+                    <span class="item-price">$4.000</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Austral Torres del Paine</span>
+                        <span class="item-subtext">Cerveza premium de alta gama de 500cc.</span>
+                    </div>
+                    <span class="item-price">$5.000</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Cerveza Patagonia 470cc</span>
+                        <span class="item-subtext">Línea Patagonia: Hoppy Lager, Blond Lager, Black Lager, Red Lager.</span>
+                    </div>
+                    <span class="item-price">$4.000</span>
+                </div>
+            </div>
+
+            <!-- Sección: Cervezas Tiradas (Shops) -->
+            <div class="section-block" style="margin-top: 15px;">
+                <h2 class="section-title">🚰 Shop Austral (De Barril)</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Shop Austral 330cc</span>
+                        <span class="item-subtext">Tirada helada al instante: Lager, Calafate o Torres del Paine.</span>
+                    </div>
+                    <span class="item-price">$4.000</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Shop Austral 500cc</span>
+                        <span class="item-subtext">Porción grande tirada de barril: Lager, Calafate, Yagan o Patagonia.</span>
+                    </div>
+                    <span class="item-price">$5.000</span>
+                </div>
+            </div>
+
+            <!-- Destacado del Bar -->
+            <div class="special-note" style="margin-top: auto;">
+                <div class="special-title">🏆 RECOMENDACIÓN DEL BARMAN</div>
+                Prueba nuestra <strong>Michelada Sriracha</strong> combinada con un <strong>Shop Austral Torres del Paine</strong> bien helado. ¡Maridaje perfecto para tus hamburguesas!
+            </div>
+
+        </div>
+
+        <!-- COLUMNA 4: POSTRES & EXTRAS -->
+        <div class="bento-column">
+            
+            <!-- Sección: Postres -->
+            <div class="section-block">
+                <h2 class="section-title">🍨 Postres Premium</h2>
+                
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Affogato</span>
+                        <span class="item-subtext">Helado de vainilla ahogado en shot de espresso caliente.</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Copa de Helado</span>
+                        <span class="item-subtext">Tres bolitas de helado con crema chantilly y salsas.</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Donuts con Helado</span>
+                        <span class="item-subtext">Donut glaseado tibio con bola de helado y chocolate.</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+
+                <div class="menu-item-row">
+                    <div class="item-name-box">
+                        <span class="item-name">Brownie con Helado</span>
+                        <span class="item-subtext">Brownie de chocolate tibio, helado y salsa fudge caliente.</span>
+                    </div>
+                    <span class="item-price">$4.500</span>
+                </div>
+            </div>
+
+            <!-- Sección: Extras -->
+            <div class="section-block">
+                <h2 class="section-title">🧀 Personaliza tu Plato (Extras)</h2>
+                
+                <div class="extras-grid">
+                    <div class="extra-box"><span class="extra-name">Cheddar</span><span class="extra-price">$1.500</span></div>
+                    <div class="extra-box"><span class="extra-name">Queso Azul</span><span class="extra-price">$2.200</span></div>
+                    <div class="extra-box"><span class="extra-name">Provoleta</span><span class="extra-price">$2.200</span></div>
+                    <div class="extra-box"><span class="extra-name">Tocino</span><span class="extra-price">$1.900</span></div>
+                    
+                    <div class="extra-box"><span class="extra-name">Palta trozada</span><span class="extra-price">$2.500</span></div>
+                    <div class="extra-box"><span class="extra-name">Camarones</span><span class="extra-price">$3.600</span></div>
+                    <div class="extra-box"><span class="extra-name">Huevo Frito</span><span class="extra-price">$1.500</span></div>
+                    <div class="extra-box"><span class="extra-name">Doble Cheddar</span><span class="extra-price">$2.500</span></div>
+                    
+                    <div class="extra-box"><span class="extra-name">Longaniza</span><span class="extra-price">$2.200</span></div>
+                    <div class="extra-box"><span class="extra-name">Pulled Pork</span><span class="extra-price">$2.500</span></div>
+                    <div class="extra-box"><span class="extra-name">Brisket</span><span class="extra-price">$3.200</span></div>
+                    <div class="extra-box"><span class="extra-name">Pepinillos</span><span class="extra-price">$800</span></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- #celebration-overlay: INTERRUPCIÓN DE CELEBRACIÓN DÍA DE LA HAMBURGUESA -->
+    <!-- ========================================== -->
+    <div id="celebration-overlay" class="overlay-fullscreen" style="background: radial-gradient(circle, rgba(220, 38, 38, 0.96) 0%, rgba(20, 0, 0, 0.99) 100%);">
+        <div class="alert-prestige-card" style="border: 2px solid #fbbf24; box-shadow: 0 0 50px rgba(251, 191, 36, 0.4); text-align: center;">
+            <span class="alert-pill" style="background: #fbbf24; color: #000; font-weight: 900; animation: pulse-btn 1.5s infinite;">🏆 FIESTA NACIONAL RUTA 9 🏆</span>
+            <h1 style="font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: #fff; margin-top: 15px; text-transform: uppercase; letter-spacing: -1px; line-height: 1.1;">
+                ¡FELIZ DÍA DE LA<br><span style="color: #fbbf24; text-shadow: 0 0 20px rgba(251,191,36,0.6);">HAMBURGUESA</span>! 🍔
+            </h1>
+            <p style="font-size: 0.95rem; color: rgba(255,255,255,0.9); margin-top: 15px; font-weight: 400; line-height: 1.4;">
+                Hoy 28 de Mayo, celebramos en grande el sabor de RUTA 9.
+            </p>
+            <div style="font-size: 1.2rem; font-weight: 800; color: #fbbf24; background: rgba(255,255,255,0.06); padding: 12px 20px; border-radius: 12px; margin-top: 20px; border: 1px solid rgba(251,191,36,0.2); text-transform: uppercase; letter-spacing: 0.5px;">
+                ⚡ PIDE TU BURGER FAVORITA HOY EN CAJA ⚡
+            </div>
+            <div style="font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px;">
+                *Pregunta por promociones y sorpresas exclusivas en caja
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- #alert-overlay: SISTEMA DE INTERRUPCIÓN DE ALERTAS RELÁMPAGO (LUJO MINIMALISTA) -->
+    <!-- ========================================== -->
+    <div id="alert-overlay" class="overlay-fullscreen">
+        <!-- Tarjeta de Alerta Esmerilada de Alta Gama -->
+        <div class="alert-prestige-card">
+            <span class="alert-pill">⚡ PROMO EN VIVO ⚡</span>
+            <h2 class="alert-title">SUPER<br><span style="color: #fbbf24; text-shadow: 0 0 30px rgba(251,191,36,0.85);">PROMO</span></h2>
+            <p id="alert-message" class="alert-message-text">
+                Cargando mensaje de alerta en tiempo real...
+            </p>
+            <div class="alert-footer-note">
+                Esta oferta exclusiva se autodestruirá pronto.
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- OVERLAY DE INICIO EN PANTALLA COMPLETA (Z-50) -->
+    <!-- ========================================== -->
+    <div id="fullscreen-welcome" onclick="startShowcaseFullscreen()" class="welcome-portal">
+        <div class="welcome-card">
+            <img src="frontend/images/logo/Logo-ruta9.png" alt="Ruta 9 Gourmet Logo" />
+            <h1 class="welcome-title">RUTA 9 • CARTA DIGITAL</h1>
+            <p class="welcome-text">
+                Toca en cualquier parte de la pantalla para activar el modo de <strong>Pantalla Completa</strong> y comenzar la exhibición de la carta de platos.
+            </p>
+            <button class="welcome-btn">INICIAR CARTA 📺</button>
+        </div>
+    </div>
+
+    <!-- WAKE LOCK & REALTIME ALERT RECEIVER SCRIPT -->
+    <script>
+        // --- AUTO-DETECCIÓN DE SMART TVS (ACTIVA MODO LITE DE BAJOS RECURSOS) ---
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const forceLite = urlParams.get('lite') === 'true' || urlParams.get('force_lite') === 'true';
+            const ua = navigator.userAgent.toLowerCase();
+            const isTV = forceLite || 
+                         ua.includes('smarttv') || 
+                         ua.includes('tizen') || 
+                         ua.includes('webos') || 
+                         ua.includes('lg browser') || 
+                         ua.includes('silk') || 
+                         ua.includes('googletv') || 
+                         ua.includes('appletv') || 
+                         ua.includes('hbbtv') || 
+                         ua.includes('opera tv') || 
+                         ua.includes('dtv');
+            if (isTV) {
+                document.documentElement.classList.add('lite-mode');
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('lite-mode');
+                    // Auto-dismiss welcome screen on TVs to run automatically without manual clicks
+                    const welcome = document.getElementById('fullscreen-welcome');
+                    if (welcome) {
+                        welcome.remove();
+                    }
+                });
+
+                // Forzar pantalla completa (0 bordes) al primer clic o pulsación de botón en el control
+                const forceFS = () => {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) {
+                        docEl.requestFullscreen().catch(() => {});
+                    } else if (docEl.webkitRequestFullscreen) {
+                        docEl.webkitRequestFullscreen();
+                    }
+                };
+                document.addEventListener('click', forceFS, { once: true });
+                document.addEventListener('keydown', forceFS, { once: true });
+
+                console.log("📺 Modo Lite activado para optimizar recursos.");
+            }
+        })();
+
+        function startShowcaseFullscreen() {
+            const docEl = document.documentElement;
+            if (docEl.requestFullscreen) {
+                docEl.requestFullscreen().catch(err => {
+                    console.log("Fullscreen blocked:", err);
+                });
+            } else if (docEl.webkitRequestFullscreen) {
+                docEl.webkitRequestFullscreen();
+            } else if (docEl.mozRequestFullScreen) {
+                docEl.mozRequestFullScreen();
+            } else if (docEl.msRequestFullscreen) {
+                docEl.msRequestFullscreen();
+            }
+            const welcome = document.getElementById('fullscreen-welcome');
+            if (welcome) {
+                welcome.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => welcome.remove(), 750);
+            }
+        }
+
+        let wakeLock = null;
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('✅ Screen 4 — Wake Lock activado. El televisor no se dormirá.');
+                }
+            } catch (err) {
+                console.warn(`⚠️ Screen 4 — Wake Lock fallido: ${err.message}`);
+            }
+        }
+        document.addEventListener('visibilitychange', () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                requestWakeLock();
+            }
+        });
+        requestWakeLock();
+
+        // --- SISTEMA DE TIEMPO REAL COORDINA BROADCASTCHANNEL + LOCALSTORAGE + SSE ---
+        const channel = new BroadcastChannel('ruta9_showcase');
+        const alertOverlay = document.getElementById('alert-overlay');
+        const alertMessage = document.getElementById('alert-message');
+        let alertTimeout = null;
+
+        function playAlarmSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const playBeep = (freq, startTime, duration) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'square';
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.3, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                    osc.start(startTime);
+                    osc.stop(startTime + duration);
+                };
+                playBeep(800, ctx.currentTime, 0.15);
+                playBeep(1000, ctx.currentTime + 0.2, 0.15);
+                playBeep(1200, ctx.currentTime + 0.4, 0.3);
+            } catch (e) {}
+        }
+
+        let _intermittentHideTimeout = null;
+        let _intermittentShowTimeout = null;
+        let _intermittentMasterTimeout = null;
+
+        function triggerFlashAlert(alert) {
+            dismissFlashAlert(true);
+
+            // Auto-dismiss welcome screen if active
+            const welcome = document.getElementById('fullscreen-welcome');
+            if (welcome) {
+                welcome.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => welcome.remove(), 750);
+            }
+
+            if (alertMessage) alertMessage.textContent = alert.message;
+
+            // --- MODO INTERMITENTE ---
+            if (alert.intermittent) {
+                const showMs = (alert.show_seconds || 10) * 1000;
+                const hideMs = (alert.hide_seconds || 50) * 1000;
+                const totalMs = (alert.total_seconds || 600) * 1000;
+                const withAlarm = alert.with_alarm !== false;
+                const startTime = Date.now();
+
+                const runCycle = () => {
+                    if (Date.now() - startTime >= totalMs) {
+                        dismissFlashAlert();
+                        return;
+                    }
+                    if (alertOverlay) alertOverlay.classList.add('active');
+                    if (withAlarm) playAlarmSound();
+
+                    _intermittentHideTimeout = setTimeout(() => {
+                        if (alertOverlay) alertOverlay.classList.remove('active');
+
+                        _intermittentShowTimeout = setTimeout(() => {
+                            runCycle();
+                        }, hideMs);
+                    }, showMs);
+                };
+
+                _intermittentMasterTimeout = setTimeout(() => {
+                    dismissFlashAlert();
+                }, totalMs + 1000);
+
+                runCycle();
+                return;
+            }
+
+            // --- MODO NORMAL ---
+            if (alertOverlay) alertOverlay.classList.add('active');
+
+            if (alertTimeout) clearTimeout(alertTimeout);
+            const duration = (alert.duration_seconds || alert.duration || 30) * 1000;
+            alertTimeout = setTimeout(() => {
+                dismissFlashAlert();
+            }, duration);
+        }
+
+        function dismissFlashAlert(silent) {
+            if (alertOverlay) alertOverlay.classList.remove('active');
+            if (alertTimeout) {
+                clearTimeout(alertTimeout);
+                alertTimeout = null;
+            }
+            if (_intermittentHideTimeout) {
+                clearTimeout(_intermittentHideTimeout);
+                _intermittentHideTimeout = null;
+            }
+            if (_intermittentShowTimeout) {
+                clearTimeout(_intermittentShowTimeout);
+                _intermittentShowTimeout = null;
+            }
+            if (_intermittentMasterTimeout) {
+                clearTimeout(_intermittentMasterTimeout);
+                _intermittentMasterTimeout = null;
+            }
+        }
+
+        function handleRealtimeEvent(data) {
+            if (!data) return;
+            if (data.table === 'live_alerts' || data.type === 'live_alert') {
+                const record = data.record || data;
+                if (record.active_status === true || record.active_status === 'true' || record.active === true) {
+                    triggerFlashAlert(record);
+                } else {
+                    dismissFlashAlert();
+                }
+            } else if (data.table === 'screen_command' && data.record) {
+                const cmd = data.record.command;
+                if (cmd === 'RELOAD') {
+                    window.location.reload();
+                } else if (cmd === 'FLASH_RED') {
+                    document.body.style.backgroundColor = '#dc2626';
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = '#020202';
+                    }, 1000);
+                }
+            }
+        }
+
+        // Escuchar BroadcastChannel (pestañas del mismo navegador)
+        channel.onmessage = (event) => {
+            handleRealtimeEvent(event.data);
+        };
+
+        // Escuchar LocalStorage (otros navegadores en el mismo equipo)
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'ruta9_realtime_event' && event.newValue) {
+                try {
+                    handleRealtimeEvent(JSON.parse(event.newValue));
+                } catch(e){}
+            }
+        });
+
+        // Polling LocalStorage (Smart TVs)
+        let lastProcessedTimestamp = 0;
+        setInterval(() => {
+            const raw = localStorage.getItem('ruta9_realtime_event');
+            if (!raw) return;
+            try {
+                const data = JSON.parse(raw);
+                if (data._ts && data._ts > lastProcessedTimestamp) {
+                    lastProcessedTimestamp = data._ts;
+                    handleRealtimeEvent(data);
+                }
+            } catch (e) {}
+        }, 500);
+
+        // Conectar al Relay local SSE
+        const hostname = window.location.hostname || 'localhost';
+        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.') || hostname.startsWith('10.') || hostname.startsWith('172.');
+        if (isLocal) {
+            const relayPort = window.location.port || '8000';
+            try {
+                const eventSource = new EventSource(`http://${hostname}:${relayPort}/api/events`);
+                eventSource.onmessage = (event) => {
+                    try {
+                        handleRealtimeEvent(JSON.parse(event.data));
+                    } catch(e){}
+                };
+            } catch(e){}
+        }
+
+        // Conectar al Relay Cloud SSE (ntfy.sh)
+        try {
+            const channelName = 'ruta9_gourmet_showcase_sync';
+            const cloudEventSource = new EventSource(`https://ntfy.sh/${channelName}/sse`);
+            cloudEventSource.onmessage = (event) => {
+                try {
+                    const ntfyData = JSON.parse(event.data);
+                    if (ntfyData.event === 'message' && ntfyData.message) {
+                        handleRealtimeEvent(JSON.parse(ntfyData.message));
+                    }
+                } catch(e){}
+            };
+        } catch(e){}
+
+        // --- INTERVALO CELEBRACIÓN DÍA DE LA HAMBURGUESA ---
+        const today = new Date();
+        const isHamburgerDay = (today.getDate() === 28 && today.getMonth() === 4) || new URLSearchParams(window.location.search).get('force_celebration') === 'true';
+        if (isHamburgerDay) {
+            const celebOverlay = document.getElementById('celebration-overlay');
+            function triggerCelebration() {
+                if (celebOverlay) {
+                    celebOverlay.classList.add('active');
+                    setTimeout(() => {
+                        celebOverlay.classList.remove('active');
+                    }, 8000); // 8 segundos
+                }
+            }
+            // Trigger inicial después de 30 segundos, luego cada 2 minutos
+            setTimeout(triggerCelebration, 30000);
+            setInterval(triggerCelebration, 120000);
+        }
+
+        // Verificar protocolo file://
+        if (window.location.protocol === 'file:') {
+            const warning = document.getElementById('protocol-warning');
+            const link = document.getElementById('protocol-link');
+            if (warning && link) {
+                warning.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>

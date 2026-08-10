@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuVitrinaDigital.cl • Super Administrador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        brand: ['Syne', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        .glass-card {
+            background: rgba(15, 15, 30, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+        .gradient-bg {
+            background: radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom right, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                        #0a0a14;
+        }
+        .client-card:hover { border-color: rgba(139, 92, 246, 0.4); }
+        .status-dot-online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+        .status-dot-offline { background: #6b7280; }
+        .status-dot-suspended { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
+    </style>
+</head>
+<body class="font-sans min-h-screen gradient-bg text-white p-4 lg:p-8">
+
+    <!-- CABECERA SUPER ADMIN -->
+    <header class="max-w-6xl mx-auto mb-8">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-violet-600 text-white">
+                        👑 SUPER ADMIN
+                    </span>
+                    <span class="text-[10px] text-neutral-400 uppercase tracking-widest">TuVitrinaDigital.cl</span>
+                </div>
+                <h1 class="text-3xl lg:text-4xl font-black font-brand tracking-wider text-white">
+                    Panel de Control Global
+                </h1>
+                <p class="text-sm text-neutral-400 mt-1">Gestiona todos tus clientes, temas y licencias desde un solo lugar.</p>
+            </div>
+            <!-- Analíticas rápidas -->
+            <div class="flex gap-3 flex-wrap">
+                <div class="glass-card rounded-2xl px-5 py-3 text-center">
+                    <div class="text-2xl font-black text-violet-400" id="stat-clients">4</div>
+                    <div class="text-[10px] text-neutral-400 uppercase tracking-wider">Clientes</div>
+                </div>
+                <div class="glass-card rounded-2xl px-5 py-3 text-center">
+                    <div class="text-2xl font-black text-green-400" id="stat-screens">6</div>
+                    <div class="text-[10px] text-neutral-400 uppercase tracking-wider">Pantallas</div>
+                </div>
+                <div class="glass-card rounded-2xl px-5 py-3 text-center">
+                    <div class="text-2xl font-black text-amber-400" id="stat-revenue">$248.000</div>
+                    <div class="text-[10px] text-neutral-400 uppercase tracking-wider">MRR (CLP)</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-8">
+
+        <!-- SECCIÓN: CREAR NUEVO CLIENTE -->
+        <section class="glass-card p-6 rounded-3xl">
+            <div class="flex items-center gap-2 mb-5 border-b border-white/10 pb-4">
+                <span class="text-xl">➕</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-violet-400 font-brand">Crear Nuevo Cliente</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Nombre del Negocio</label>
+                    <input type="text" id="new-client-name" placeholder="Ej: Hotel Patagonia" class="w-full bg-neutral-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-violet-500">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Subdominio</label>
+                    <div class="flex items-center gap-1">
+                        <input type="text" id="new-client-subdomain" placeholder="hotelpatagonia" class="w-full bg-neutral-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-violet-500">
+                        <span class="text-[10px] text-neutral-500 whitespace-nowrap">.tuvitrinadigital.cl</span>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Nicho / Tema</label>
+                    <select id="new-client-theme" class="w-full bg-neutral-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-violet-500 cursor-pointer">
+                        <option value="gourmet">🍔 Gourmet & Fire</option>
+                        <option value="retail">🛍️ Retail & Modern</option>
+                        <option value="tourism">🏔️ Turismo & Aventura</option>
+                        <option value="wellness">🌿 Wellness & Spa</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Plan</label>
+                    <select id="new-client-plan" class="w-full bg-neutral-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-violet-500 cursor-pointer">
+                        <option value="starter">Starter ($29.900/mes)</option>
+                        <option value="pro">Pro ($59.900/mes)</option>
+                        <option value="enterprise">Enterprise ($99.900/mes)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="createClient()" class="mt-4 bg-violet-600 hover:bg-violet-500 text-white font-black text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition active:scale-95 shadow-lg">
+                ➕ Crear Cliente y Asignar Accesos
+            </button>
+        </section>
+
+        <!-- SECCIÓN: CLIENTES REGISTRADOS -->
+        <section class="glass-card p-6 rounded-3xl">
+            <div class="flex items-center gap-2 mb-5 border-b border-white/10 pb-4">
+                <span class="text-xl">🏢</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-violet-400 font-brand">Clientes Registrados</h2>
+            </div>
+            <div class="space-y-4" id="clients-list">
+                <!-- Generado dinámicamente por JS -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN: GESTIÓN DE PLANES Y PLUGINS -->
+        <section class="glass-card p-6 rounded-3xl">
+            <div class="flex items-center gap-2 mb-5 border-b border-white/10 pb-4">
+                <span class="text-xl">🔌</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-violet-400 font-brand">Planes y Plugins Disponibles</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Plan Starter -->
+                <div class="bg-neutral-900/60 border border-white/5 rounded-2xl p-5 space-y-3">
+                    <div class="text-2xl font-black text-white">Starter</div>
+                    <div class="text-3xl font-black text-neutral-300">$29.900<span class="text-sm font-normal text-neutral-500">/mes</span></div>
+                    <ul class="text-xs text-neutral-400 space-y-1.5">
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 1 Pantalla</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 1 Tema (Gourmet)</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Alertas Flash</li>
+                        <li class="flex items-center gap-2"><span class="text-neutral-600">✗</span> Multi-idioma</li>
+                        <li class="flex items-center gap-2"><span class="text-neutral-600">✗</span> Clima en tiempo real</li>
+                    </ul>
+                </div>
+                <!-- Plan Pro -->
+                <div class="bg-violet-900/30 border border-violet-500/30 rounded-2xl p-5 space-y-3 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <span class="bg-violet-500 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full">MÁS POPULAR</span>
+                    </div>
+                    <div class="text-2xl font-black text-white">Pro</div>
+                    <div class="text-3xl font-black text-violet-300">$59.900<span class="text-sm font-normal text-neutral-500">/mes</span></div>
+                    <ul class="text-xs text-neutral-300 space-y-1.5">
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 3 Pantallas</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 4 Temas Transversales</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Multi-idioma (2)</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Widget de Clima</li>
+                        <li class="flex items-center gap-2"><span class="text-neutral-600">✗</span> Rol Cajero/Operador</li>
+                    </ul>
+                </div>
+                <!-- Plan Enterprise -->
+                <div class="bg-amber-900/20 border border-amber-500/20 rounded-2xl p-5 space-y-3">
+                    <div class="text-2xl font-black text-white">Enterprise</div>
+                    <div class="text-3xl font-black text-amber-300">$99.900<span class="text-sm font-normal text-neutral-500">/mes</span></div>
+                    <ul class="text-xs text-neutral-300 space-y-1.5">
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Pantallas ilimitadas</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Todos los Temas + Plugins</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Multi-idioma (ilimitado)</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Rol Cajero/Operador</li>
+                        <li class="flex items-center gap-2"><span class="text-green-400">✓</span> QR de Reservas/Pedidos</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- LINKS DE ACCESO RÁPIDO -->
+        <section class="glass-card p-6 rounded-3xl">
+            <div class="flex items-center gap-2 mb-5 border-b border-white/10 pb-4">
+                <span class="text-xl">🔗</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-violet-400 font-brand">Accesos Rápidos del Sistema</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <a href="r9-burger.html?lite=true" class="bg-neutral-900/60 hover:bg-neutral-800/60 border border-white/5 hover:border-white/20 rounded-2xl p-4 text-center transition group">
+                    <div class="text-2xl mb-2">📺</div>
+                    <div class="text-xs font-bold text-white">Vitrina Principal</div>
+                    <div class="text-[10px] text-neutral-500 mt-1">Rol: Dispositivo (TV)</div>
+                </a>
+                <a href="admin.html" class="bg-neutral-900/60 hover:bg-neutral-800/60 border border-white/5 hover:border-white/20 rounded-2xl p-4 text-center transition group">
+                    <div class="text-2xl mb-2">🏢</div>
+                    <div class="text-xs font-bold text-white">Panel Administrador</div>
+                    <div class="text-[10px] text-neutral-500 mt-1">Rol: Gerente/Cliente</div>
+                </a>
+                <a href="operator.html" class="bg-neutral-900/60 hover:bg-neutral-800/60 border border-white/5 hover:border-white/20 rounded-2xl p-4 text-center transition group">
+                    <div class="text-2xl mb-2">👨‍🍳</div>
+                    <div class="text-xs font-bold text-white">Panel Operador</div>
+                    <div class="text-[10px] text-neutral-500 mt-1">Rol: Cajero/Staff</div>
+                </a>
+                <a href="superadmin.html" class="bg-violet-900/30 hover:bg-violet-800/30 border border-violet-500/30 rounded-2xl p-4 text-center transition group">
+                    <div class="text-2xl mb-2">👑</div>
+                    <div class="text-xs font-bold text-violet-300">Super Admin</div>
+                    <div class="text-[10px] text-violet-500 mt-1">Tú (Agencia)</div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-[10px] text-neutral-600 uppercase tracking-widest pt-8 pb-4">
+        TuVitrinaDigital.cl • Super Admin Panel • Solo acceso de Agencia
+    </footer>
+
+    <!-- LÓGICA DE CONTROL DEL SUPER ADMIN -->
+    <script>
+        // Base de datos simulada de clientes (fallback local)
+        let clients = [
+            {
+                id: 'client-001',
+                name: 'Ruta 9 Gourmet',
+                subdomain: 'ruta9',
+                theme: 'gourmet',
+                plan: 'pro',
+                screens: 2,
+                status: 'online',
+                plugins: ['alerts', 'themes', 'countdown']
+            },
+            {
+                id: 'client-002',
+                name: 'Hotel Patagonia',
+                subdomain: 'hotelpatagonia',
+                theme: 'tourism',
+                plan: 'enterprise',
+                screens: 3,
+                status: 'online',
+                plugins: ['alerts', 'themes', 'weather', 'multilang', 'qr_reservations']
+            },
+            {
+                id: 'client-003',
+                name: 'Tienda Andina Moda',
+                subdomain: 'tiendaandina',
+                theme: 'retail',
+                plan: 'starter',
+                screens: 1,
+                status: 'offline',
+                plugins: ['alerts']
+            },
+            {
+                id: 'client-004',
+                name: 'Spa Termas del Sur',
+                subdomain: 'termasdelsur',
+                theme: 'wellness',
+                plan: 'pro',
+                screens: 2,
+                status: 'suspended',
+                plugins: ['alerts', 'themes']
+            }
+        ];
+
+        const themeNames = { gourmet: '🍔 Gourmet', retail: '🛍️ Retail', tourism: '🏔️ Turismo', wellness: '🌿 Wellness' };
+        const planColors = { starter: 'text-neutral-400', pro: 'text-violet-400', enterprise: 'text-amber-400' };
+        const statusLabels = { 
+            online: { label: 'En Línea', cls: 'status-dot-online' }, 
+            offline: { label: 'Sin Conexión', cls: 'status-dot-offline' }, 
+            suspended: { label: 'Suspendido', cls: 'status-dot-suspended' }
+        };
+
+        function renderClients() {
+            const list = document.getElementById('clients-list');
+            list.innerHTML = '';
+            clients.forEach(client => {
+                const status = statusLabels[client.status] || { label: 'En Línea', cls: 'status-dot-online' };
+                const card = document.createElement('div');
+                card.className = 'client-card bg-neutral-900/50 border border-white/5 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition cursor-pointer';
+                
+                const themeSymbol = themeNames[client.theme] ? themeNames[client.theme][0] : '🏢';
+                const themeLabel = themeNames[client.theme] || 'Tema Personalizado';
+                const screenCount = client.screens || 1;
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center text-lg">${themeSymbol}</div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-white">${client.name}</span>
+                                <span class="flex items-center gap-1.5 text-[10px] text-neutral-400">
+                                    <span class="w-1.5 h-1.5 rounded-full ${status.cls}"></span>
+                                    ${status.label}
+                                </span>
+                            </div>
+                            <div class="text-[11px] text-neutral-500 mt-0.5">
+                                ${client.subdomain}.tuvitrinadigital.cl • ${themeLabel} • ${screenCount} pantalla(s)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold uppercase ${planColors[client.plan] || 'text-white'}">${client.plan.toUpperCase()}</span>
+                        <button onclick="toggleStatus('${client.id}')" class="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/30 text-neutral-400 hover:text-white transition">
+                            ${client.status === 'suspended' ? '✅ Activar' : '⏸ Suspender'}
+                        </button>
+                        <button onclick="deleteClient('${client.id}')" class="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border border-red-500/20 hover:border-red-500/60 text-red-500 transition">
+                            🗑 Eliminar
+                        </button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+            document.getElementById('stat-clients').textContent = clients.length;
+            document.getElementById('stat-screens').textContent = clients.reduce((sum, c) => sum + (c.screens || 1), 0);
+        }
+
+        function createClient() {
+            const name = document.getElementById('new-client-name').value.trim();
+            const subdomain = document.getElementById('new-client-subdomain').value.trim();
+            const theme = document.getElementById('new-client-theme').value;
+            const plan = document.getElementById('new-client-plan').value;
+
+            if (!name || !subdomain) { alert('Por favor completa el nombre y el subdominio.'); return; }
+
+            let newClient = {
+                id: `client-${Date.now()}`,
+                name,
+                subdomain,
+                theme,
+                plan,
+                screens: 1,
+                status: 'online',
+                plugins: ['alerts', 'themes']
+            };
+
+            clients.push(newClient);
+            renderClients();
+
+            document.getElementById('new-client-name').value = '';
+            document.getElementById('new-client-subdomain').value = '';
+        }
+
+        function toggleStatus(id) {
+            const client = clients.find(c => c.id === id);
+            if (client) {
+                const nextStatus = client.status === 'suspended' ? 'online' : 'suspended';
+                client.status = nextStatus;
+                renderClients();
+            }
+        }
+
+        function deleteClient(id) {
+            if (!confirm('¿Estás seguro de que quieres eliminar este cliente? Esta acción no se puede deshacer.')) return;
+            clients = clients.filter(c => c.id !== id);
+            renderClients();
+        }
+
+        window.onload = () => {
+            renderClients();
+        };
+    </script>
+</body>
+</html>

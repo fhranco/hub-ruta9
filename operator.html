@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuVitrinaDigital • Panel Operador / Cajero</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        brand: ['Syne', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        .glass-card {
+            background: rgba(5, 20, 10, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(34, 197, 94, 0.12);
+        }
+        .gradient-bg {
+            background: radial-gradient(ellipse at top, rgba(21, 128, 61, 0.12) 0%, transparent 60%), #080f08;
+        }
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+        .btn-alert-active { animation: pulse-btn 1.5s infinite; }
+    </style>
+</head>
+<body class="font-sans min-h-screen gradient-bg text-white p-4 lg:p-8">
+
+    <!-- BANNER DE ADVERTENCIA PARA PROTOCOLO FILE:// -->
+    <div id="protocol-warning" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(220, 38, 38, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 15px 25px; z-index: 999999; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: bold; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; max-width: 90%; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+        <span style="font-size: 1.1rem;">⚠️ PROTOCOLO DE ARCHIVO DETECTADO (file://)</span>
+        <span style="font-weight: normal; color: rgba(255,255,255,0.85); line-height: 1.4;">
+            Estás abriendo este panel directamente desde el disco duro. Para que la sincronización en tiempo real funcione entre múltiples navegadores y dispositivos, debes abrirlo a través del servidor local.
+        </span>
+        <a href="http://localhost:8000/operator.html" id="protocol-link" style="color: #fbbf24; text-decoration: underline; margin-top: 4px; font-weight: 800; text-transform: uppercase; tracking-wider; font-size: 11px;">
+            Hacer clic aquí para abrir a través de http://localhost:8000/operator.html
+        </a>
+    </div>
+
+    <!-- CABECERA OPERADOR -->
+    <header class="max-w-xl mx-auto mb-8 text-center">
+        <div class="flex items-center justify-center gap-3 mb-2 flex-col">
+            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-green-700 text-green-100">
+                👨‍🍳 PANEL OPERADOR
+            </span>
+            <a href="hub.html" class="text-[10px] font-bold text-neutral-400 hover:text-green-400 transition uppercase tracking-wider">🏠 Volver al Portal de Integración</a>
+        </div>
+        <h1 class="text-2xl lg:text-3xl font-black font-brand tracking-wider text-white">
+            Ruta 9 Gourmet • Turno en Vivo
+        </h1>
+        <p class="text-xs text-neutral-500 mt-1">Acciones rápidas para el personal del local. Cambios instantáneos en pantalla.</p>
+    </header>
+
+    <main class="max-w-xl mx-auto space-y-5">
+
+        <!-- SECCIÓN 1: ALERTA FLASH (PRIORIDAD MÁXIMA) -->
+        <section class="glass-card p-6 rounded-3xl space-y-4 border-red-800/30">
+            <div class="flex items-center gap-2 border-b border-white/10 pb-3">
+                <span class="text-lg">🚨</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-red-400 font-brand">Lanzar Alerta Flash</h2>
+                <span class="ml-auto text-[10px] text-neutral-500 bg-neutral-900 px-2 py-1 rounded-lg">Afecta TODAS las pantallas</span>
+            </div>
+
+            <!-- Mensajes preconfigurados (modo cajero: sin escribir nada complejo) -->
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Mensaje Preconfigurado</label>
+                <div class="grid grid-cols-1 gap-2" id="preset-alerts">
+                    <!-- Generado dinámicamente -->
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">O escribe un mensaje personalizado</label>
+                <textarea id="custom-alert" rows="2" placeholder="Ej: ¡Última mesa disponible! Consulta en caja..." class="w-full bg-neutral-900/80 border border-white/10 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-red-500 resize-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Sucursal</label>
+                    <select id="alert-local" class="w-full bg-neutral-900/80 border border-white/10 rounded-xl px-2 py-3 text-sm text-white focus:outline-none focus:border-red-500">
+                        <option value="">Todas</option>
+                        <option value="zf">Zona Franca (ZF)</option>
+                    </select>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Duración</label>
+                    <select id="alert-duration" class="w-full bg-neutral-900/80 border border-white/10 rounded-xl px-3 py-3 text-sm text-white focus:outline-none focus:border-red-500">
+                        <option value="15">15 segundos</option>
+                        <option value="30" selected>30 segundos</option>
+                        <option value="60">1 minuto</option>
+                        <option value="300">5 minutos</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button id="emit-alert-btn" onclick="emitFlashAlert(true)" class="w-full bg-red-700 hover:bg-red-600 text-white font-black text-[10px] uppercase tracking-wider py-3.5 rounded-xl transition active:scale-95">
+                        📢 Emitir Alerta
+                    </button>
+                </div>
+            </div>
+            <button onclick="emitFlashAlert(false)" class="w-full bg-transparent hover:bg-neutral-800 text-neutral-500 hover:text-white border border-white/5 hover:border-white/10 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl transition">
+                ❌ Quitar Alerta de Pantalla
+            </button>
+        </section>
+
+        <!-- SECCIÓN 2: ESTADO DE STOCK (MARCAR AGOTADOS) -->
+        <section class="glass-card p-6 rounded-3xl space-y-4">
+            <div class="flex items-center gap-2 border-b border-white/10 pb-3">
+                <span class="text-lg">📦</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-green-400 font-brand">Control de Stock en Pantalla</h2>
+            </div>
+            <p class="text-xs text-neutral-400">Marca un producto como <span class="text-red-400 font-bold">AGOTADO</span> para que desaparezca de la vitrina al instante, sin editar precios ni descripciones.</p>
+
+            <!-- Filtro de Categorías -->
+            <div class="flex gap-2 bg-neutral-950/60 p-1.5 border border-white/5 rounded-2xl">
+                <button onclick="setOperatorFilter('burgers')" id="filter-burgers" class="flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-green-700 text-green-100 shadow active:scale-95 transition duration-300">Burgers 🍔</button>
+                <button onclick="setOperatorFilter('snacks')" id="filter-snacks" class="flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-neutral-400 hover:text-white active:scale-95 transition duration-300">Snacks 🍟</button>
+                <button onclick="setOperatorFilter('sandwiches')" id="filter-sandwiches" class="flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-neutral-400 hover:text-white active:scale-95 transition duration-300">Sándwiches 🥪</button>
+            </div>
+
+            <div class="space-y-2 mt-2" id="stock-list">
+                <!-- Generado dinámicamente -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: ESTADO DE LA PANTALLA -->
+        <section class="glass-card p-6 rounded-3xl space-y-4">
+            <div class="flex items-center gap-2 border-b border-white/10 pb-3">
+                <span class="text-lg">📺</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-green-400 font-brand">Estado de las Pantallas</h2>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between bg-neutral-900/60 rounded-xl px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#22c55e]"></span>
+                        <span class="text-sm text-white font-bold">Pantalla 1 — Hamburguesas 🍔</span>
+                    </div>
+                    <span class="text-[10px] text-green-400 uppercase tracking-wider">En línea</span>
+                </div>
+                <div class="flex items-center justify-between bg-neutral-900/60 rounded-xl px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#22c55e]"></span>
+                        <span class="text-sm text-white font-bold">Pantalla 2 — Snacks & Picoteos 🍟</span>
+                    </div>
+                    <span class="text-[10px] text-green-400 uppercase tracking-wider">En línea</span>
+                </div>
+                <div class="flex items-center justify-between bg-neutral-900/60 rounded-xl px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#22c55e]"></span>
+                        <span class="text-sm text-white font-bold">Pantalla 3 — Sándwiches Gourmet 🥪</span>
+                    </div>
+                    <span class="text-[10px] text-green-400 uppercase tracking-wider">En línea</span>
+                </div>
+                <div class="flex items-center justify-between bg-neutral-900/60 rounded-xl px-4 py-3">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#22c55e]"></span>
+                        <span class="text-sm text-white font-bold">Pantalla 4 — Carta General & Barra 📋</span>
+                    </div>
+                    <span class="text-[10px] text-green-400 uppercase tracking-wider">En línea</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUEO: Funciones no disponibles para operador -->
+        <section class="border border-red-900/30 rounded-3xl p-5 text-center opacity-60">
+            <div class="text-2xl mb-2">🔒</div>
+            <p class="text-xs text-neutral-500 font-bold uppercase tracking-wider">Funciones bloqueadas para tu rol</p>
+            <p class="text-[10px] text-neutral-600 mt-1">Modificar precios, cambiar temas visuales, subir imágenes y gestionar el catálogo son acciones exclusivas del Administrador.</p>
+        </section>
+
+        <!-- ACCESOS -->
+        <div class="flex gap-3">
+            <a href="admin.html" class="flex-1 text-center bg-neutral-900 hover:bg-neutral-800 border border-white/10 text-neutral-400 font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition">
+                → Admin Panel
+            </a>
+            <a href="r9-burger.html?lite=true" class="flex-1 text-center bg-neutral-900 hover:bg-neutral-800 border border-white/10 text-neutral-400 font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition">
+                📺 Ver Vitrina
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-[10px] text-neutral-600 uppercase tracking-widest pt-8 pb-4">
+        TuVitrinaDigital.cl • Rol: Operador / Cajero
+    </footer>
+
+    <!-- LÓGICA DE CONTROL DEL OPERADOR -->
+    <script>
+        const channel = new BroadcastChannel('ruta9_showcase');
+
+        // Configuración de conexión al Relay Server local (Cross-Browser / Cross-Device)
+        const relayHost = window.location.hostname || 'localhost';
+        const isLocal = relayHost === 'localhost' || 
+                        relayHost === '127.0.0.1' || 
+                        relayHost.startsWith('192.168.') || 
+                        relayHost.startsWith('10.') || 
+                        relayHost.startsWith('172.');
+
+        const relayPort = window.location.port || '8000';
+        const relayUrl = `http://${relayHost}:${relayPort}/api/command`;
+
+        async function sendToRelay(payload) {
+            // 1. Enviar al Relay local si estamos en entorno local
+            if (isLocal) {
+                try {
+                    await fetch(relayUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (e) {
+                    console.warn('⚠️ [Relay local] Error de conexión:', e);
+                }
+            }
+
+            // 2. Enviar a la Nube (ntfy.sh) para sincronización cross-device global
+            try {
+                const channelName = 'ruta9_gourmet_showcase_sync';
+                await fetch(`https://ntfy.sh/${channelName}`, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                console.log('📡 [Cloud Relay] Evento enviado a la nube.');
+            } catch (e) {
+                console.warn('⚠️ [Cloud Relay] Error enviando a la nube:', e);
+            }
+        }
+        let products = [
+            // Hamburguesas (B1-BF)
+            { id: 'prod-1', code: 'B1', name: 'Burger básica', status: 'available' },
+            { id: 'prod-2', code: 'B2', name: 'Completa', status: 'available' },
+            { id: 'prod-3', code: 'B3', name: 'Clásica BBQ', status: 'available' },
+            { id: 'prod-4', code: 'B4', name: 'Camarones al limón', status: 'available' },
+            { id: 'prod-5', code: 'B5', name: 'Nachos', status: 'available' },
+            { id: 'prod-6', code: 'B6', name: 'BBQ Tocino', status: 'available' },
+            { id: 'prod-7', code: 'B7', name: 'La 420', status: 'available' },
+            { id: 'prod-8', code: 'B8', name: 'BLT', status: 'available' },
+            { id: 'prod-9', code: 'B9', name: 'Doble cuarto libra', status: 'available' },
+            { id: 'prod-10', code: 'B10', name: 'Provoleta', status: 'available' },
+            { id: 'prod-11', code: 'B11', name: 'Vegetariana', status: 'available' },
+            { id: 'prod-12', code: 'B12', name: 'Azul Ruibarbo', status: 'available' },
+            { id: 'prod-13', code: 'B13', name: 'Cheddar plancha', status: 'available' },
+            { id: 'prod-14', code: 'B14', name: 'Gouda frito', status: 'available' },
+            { id: 'prod-15', code: 'B15', name: 'La Tocinetta', status: 'available' },
+            { id: 'prod-16', code: 'B16', name: 'Kill Bill', status: 'available' },
+            { id: 'prod-17', code: 'B17', name: 'La Gran "S"', status: 'available' },
+            { id: 'prod-18', code: 'B18', name: 'La Francesa', status: 'available' },
+            { id: 'prod-19', code: 'B19', name: 'La "36"', status: 'available' },
+            { id: 'prod-20', code: 'B20', name: 'Los Tres Chanchitos', status: 'available' },
+            { id: 'prod-21', code: 'B21', name: 'La Limeña', status: 'available' },
+            { id: 'prod-22', code: 'B22', name: 'Club Veggie', status: 'available' },
+            { id: 'prod-23', code: 'B23', name: 'Burger del Mes', status: 'available' },
+            { id: 'prod-24', code: 'B24', name: 'Veggie Thai', status: 'available' },
+            { id: 'prod-25', code: 'BF', name: 'Burgers Factory', status: 'available' },
+
+            // Snacks (K1-K20)
+            { id: 'snack-1', code: 'K1', name: 'Aros de cebolla (15u.)', status: 'available' },
+            { id: 'snack-2', code: 'K2', name: 'Aros de cebolla con salsa (15u.)', status: 'available' },
+            { id: 'snack-3', code: 'K3', name: 'Bastones de muzzarella (10u.)', status: 'available' },
+            { id: 'snack-4', code: 'K4', name: 'Bastones de muzzarella BBQ (10u.)', status: 'available' },
+            { id: 'snack-5', code: 'K5', name: 'Cóndor wings + salsa (5u.)', status: 'available' },
+            { id: 'snack-6', code: 'K6', name: 'Cóndor wings + salsa (10u.)', status: 'available' },
+            { id: 'snack-7', code: 'K7', name: 'Papas fritas rústicas', status: 'available' },
+            { id: 'snack-8', code: 'K8', name: 'Mix papas + aros de cebolla', status: 'available' },
+            { id: 'snack-9', code: 'K9', name: 'Mix muzzarella + aros + papas', status: 'available' },
+            { id: 'snack-10', code: 'K10', name: 'Papas provenzal ajo perejil', status: 'available' },
+            { id: 'snack-11', code: 'K11', name: 'Papas con dos huevos fritos', status: 'available' },
+            { id: 'snack-12', code: 'K12', name: 'Papas cheddar tocino pepinillo', status: 'available' },
+            { id: 'snack-13', code: 'K13', name: 'Papas queso crema y tocino', status: 'available' },
+            { id: 'snack-14', code: 'K14', name: 'Papas mix de ajíes sriracha', status: 'available' },
+            { id: 'snack-15', code: 'K15', name: 'Papas longaniza y dos huevos', status: 'available' },
+            { id: 'snack-16', code: 'K16', name: 'Papas camarón limón palta', status: 'available' },
+            { id: 'snack-17', code: 'K17', name: 'Papas camarón a la parmesana', status: 'available' },
+            { id: 'snack-18', code: 'K18', name: 'Papas camarón a la vasca', status: 'available' },
+            { id: 'snack-19', code: 'K19', name: 'Papas brisket cebolla huevo', status: 'available' },
+            { id: 'snack-20', code: 'K20', name: 'Papas Hattori Hanzō', status: 'available' },
+
+            // Sándwiches (S1-S9)
+            { id: 'sand-1', code: 'S1', name: 'TLT', status: 'available' },
+            { id: 'sand-2', code: 'S2', name: 'THP', status: 'available' },
+            { id: 'sand-3', code: 'S3', name: 'QTH', status: 'available' },
+            { id: 'sand-4', code: 'S4', name: 'Matambre chimichurri', status: 'available' },
+            { id: 'sand-5', code: 'S5', name: 'Matambre a la parrilla', status: 'available' },
+            { id: 'sand-6', code: 'S6', name: 'Brisket ahumada 4 quesos', status: 'available' },
+            { id: 'sand-7', code: 'S7', name: 'Sandwich Philly', status: 'available' },
+            { id: 'sand-8', code: 'S8', name: 'Harley Quinn', status: 'available' },
+            { id: 'sand-9', code: 'S9', name: 'Pulled Pork Gouda', status: 'available' }
+        ];
+
+        // Mensajes preconfigurados para que el cajero no tenga que escribir
+        const presetAlerts = [
+            '🍔 ¡2x1 en todas las hamburguesas por los próximos 30 minutos! Válido solo en caja.',
+            '🔥 ¡Happy Hour activo! Bebidas gratis con cualquier combo por los próximos 15 min.',
+            '⏳ ¡Últimas 5 mesas disponibles! Acércate a caja para reservar tu lugar.',
+            '🎉 ¡Cumpleañero en casa! Postres de regalo para la mesa del cumpleaños. Pregunta en caja.',
+            '⚡ ¡Combo Familiar $29.900 por tiempo limitado! Incluye 4 burgers + papas + bebidas.'
+        ];
+
+        let activeFilter = 'burgers';
+
+        function setOperatorFilter(category) {
+            if (activeFilter === category) return;
+            activeFilter = category;
+
+            const btnBurgers = document.getElementById('filter-burgers');
+            const btnSnacks = document.getElementById('filter-snacks');
+            const btnSandwiches = document.getElementById('filter-sandwiches');
+
+            const activeClass = "flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider bg-green-700 text-green-100 shadow active:scale-95 transition duration-300";
+            const inactiveClass = "flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-neutral-400 hover:text-white active:scale-95 transition duration-300";
+
+            btnBurgers.className = inactiveClass;
+            btnSnacks.className = inactiveClass;
+            btnSandwiches.className = inactiveClass;
+
+            if (activeFilter === 'burgers') btnBurgers.className = activeClass;
+            else if (activeFilter === 'snacks') btnSnacks.className = activeClass;
+            else if (activeFilter === 'sandwiches') btnSandwiches.className = activeClass;
+
+            renderStockList();
+        }
+
+        function renderPresets() {
+            const container = document.getElementById('preset-alerts');
+            container.innerHTML = '';
+            presetAlerts.forEach(msg => {
+                const btn = document.createElement('button');
+                btn.className = 'text-left w-full bg-neutral-900/70 hover:bg-red-900/20 border border-white/5 hover:border-red-500/40 rounded-xl px-4 py-3 text-xs text-neutral-300 hover:text-white transition';
+                btn.textContent = msg;
+                btn.onclick = () => {
+                    document.getElementById('custom-alert').value = msg;
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function renderStockList() {
+            const list = document.getElementById('stock-list');
+            list.innerHTML = '';
+            
+            const filteredProducts = products.filter(p => {
+                const code = (p.code || '').toUpperCase();
+                if (activeFilter === 'burgers') {
+                    return code.startsWith('B') || (!code.startsWith('K') && !code.startsWith('S') && !code.startsWith('R') && !code.startsWith('W') && !code.startsWith('T'));
+                } else if (activeFilter === 'snacks') {
+                    return code.startsWith('K');
+                } else {
+                    return code.startsWith('S');
+                }
+            });
+
+            filteredProducts.forEach(p => {
+                const isOut = p.status === 'out_of_stock' || p.is_available === false;
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between bg-neutral-900/50 rounded-xl px-4 py-3';
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] font-black text-neutral-500 w-8">${p.code || 'PRD'}</span>
+                        <span class="text-sm ${isOut ? 'text-neutral-500 line-through' : 'text-white'}">${p.name}</span>
+                        ${isOut ? '<span class="text-[9px] font-black bg-red-900/50 text-red-400 px-2 py-0.5 rounded-full uppercase">AGOTADO</span>' : ''}
+                    </div>
+                    <button onclick="toggleStock('${p.id}')" class="text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition ${isOut ? 'border-green-500/30 text-green-400 hover:border-green-400' : 'border-red-500/20 text-red-400 hover:border-red-500/50'}">
+                        ${isOut ? '✅ Disponible' : '🚫 Agotar'}
+                    </button>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function toggleStock(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            const nextStatus = (product.status === 'out_of_stock' || product.is_available === false) ? 'available' : 'out_of_stock';
+            const isAvailable = nextStatus === 'available';
+
+            // Actualizar local
+            product.status = nextStatus;
+            product.is_available = isAvailable;
+            
+            // 1. Notificar a la vitrina local vía BroadcastChannel
+            const payload = {
+                table: 'products',
+                event: 'UPDATE',
+                record: {
+                    id: product.id,
+                    name: product.name,
+                    tag: isAvailable ? 'DISPONIBLE ✅' : 'AGOTADO 🚫',
+                    is_available: isAvailable,
+                    code: product.code
+                }
+            };
+            channel.postMessage(payload);
+            sendToRelay(payload);
+
+            renderStockList();
+        }
+
+        function emitFlashAlert(active) {
+            const message = document.getElementById('custom-alert').value.trim() || presetAlerts[0];
+            const duration = parseInt(document.getElementById('alert-duration').value);
+            const clientId = document.getElementById('alert-local').value || null;
+
+            const payload = {
+                table: 'live_alerts',
+                event: 'INSERT',
+                record: { message, active_status: active, duration_seconds: duration, clientId }
+            };
+            // 1. Notificar localmente por BroadcastChannel
+            channel.postMessage(payload);
+            sendToRelay(payload);
+
+            if (active) {
+                document.getElementById('emit-alert-btn').classList.add('btn-alert-active');
+                setTimeout(() => document.getElementById('emit-alert-btn').classList.remove('btn-alert-active'), duration * 1000);
+            }
+        }
+
+        window.onload = () => {
+            renderPresets();
+            renderStockList();
+        };
+
+        // Verificar protocolo file://
+        if (window.location.protocol === 'file:') {
+            const warning = document.getElementById('protocol-warning');
+            const link = document.getElementById('protocol-link');
+            if (warning && link) {
+                const filename = window.location.pathname.split('/').pop() || 'operator.html';
+                link.href = `http://localhost:8000/${filename}`;
+                link.textContent = `Hacer clic aquí para abrir a través de http://localhost:8000/${filename}`;
+                warning.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>

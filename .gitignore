@@ -1,0 +1,49 @@
+# ==========================================================================
+# GITHUB .GITIGNORE — TU VITRINA DIGITAL (RUTA 9 GOURMET)
+# ==========================================================================
+
+# Archivos de Metadatos del Sistema Operativo (macOS / Windows)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Directorios de Dependencias de Node.js (Si se instalan localmente)
+node_modules/
+jspm_packages/
+web_modules/
+
+# Archivos Temporales e Historiales de Vercel
+.vercel
+.vercel/
+
+# Archivos de Configuración de Editores e IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.classpath
+.settings/
+
+# Archivos de Log y Logs de Errores de npm
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Archivos Temporales de Compilación y Testeo
+.npm
+.eslintcache
+.cache/
+dist/
+build/
+out/

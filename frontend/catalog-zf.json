@@ -1,0 +1,233 @@
+{
+  "burgers": [
+    {
+      "id": "zf-b1",
+      "code": "B1",
+      "name": "Burger Básica",
+      "price": "$8.200",
+      "tag": "RECETA CLÁSICA 🍅",
+      "image": "frontend/images/products/Zona Franca/b1.webp",
+      "description": "Burger + queso Gouda o Cheddar. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b2",
+      "code": "B2",
+      "name": "Burger Completa",
+      "price": "$9.600",
+      "tag": "¡PÍDELA AHORA! 🍳",
+      "image": "frontend/images/products/Zona Franca/b2.webp",
+      "description": "Burger + queso Gouda + lechuga + tomate + cebolla morada + huevo frito. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b3",
+      "code": "B3",
+      "name": "Clásica BBQ",
+      "price": "$10.900",
+      "tag": "TOCINO EXTRA 🥓",
+      "image": "frontend/images/products/Zona Franca/b3.webp",
+      "description": "Burger + queso Cheddar + tocino + huevo frito + pepinillos + salsa BBQ. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b5",
+      "code": "B5",
+      "name": "Burger del Mes",
+      "price": "$10.500",
+      "tag": "BURGER DEL MES 👑🌶️",
+      "image": "frontend/images/products/Zona Franca/mes.webp",
+      "description": "Burger + queso + palta + tomates + mix de ajíes + tortillas de maíz. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b6",
+      "code": "B6",
+      "name": "BBQ Tocino",
+      "price": "$10.500",
+      "tag": "TOCINO EXTRA 🥓",
+      "image": "frontend/images/products/Zona Franca/b6.webp",
+      "description": "Burger + queso Cheddar + tocino + aros de cebolla apanados + salsa BBQ. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b7",
+      "code": "B7",
+      "name": "La 420",
+      "price": "$9.500",
+      "tag": "VEGGIE STYLE 🌿",
+      "image": "frontend/images/products/Zona Franca/b7.webp",
+      "description": "Burger veggie de garbanzos + lechuga + cebollín grillado + palta trozada + pepinillos. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b8",
+      "code": "B8",
+      "name": "Burger BLT",
+      "price": "$10.500",
+      "tag": "RECETA CLÁSICA 🍅",
+      "image": "frontend/images/products/Zona Franca/b8.webp",
+      "description": "Burger + tocino + lechuga + tomate. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b9",
+      "code": "B9",
+      "name": "Doble Cuarto de Libra con Queso V. R9",
+      "price": "$13.600",
+      "tag": "SÚPER COLOSAL 👑",
+      "image": "frontend/images/products/Zona Franca/b9.webp",
+      "description": "2 burgers + medallón de queso crocante. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b14",
+      "code": "B14",
+      "name": "Gouda Frito",
+      "price": "$10.600",
+      "tag": "¡DISFRÚTALA! 🥚",
+      "image": "frontend/images/products/Zona Franca/b14.webp",
+      "description": "Burger + queso Gouda + cebolla caramelizada + tocino + huevo frito. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b17",
+      "code": "B17",
+      "name": "La Gran “S”",
+      "price": "$11.800",
+      "tag": "¡PÍDELA AHORA! ⭐",
+      "image": "frontend/images/products/Zona Franca/b17.webp",
+      "description": "Burger + queso Cheddar + tocino + palta trozada + huevo frito. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b18",
+      "code": "B18",
+      "name": "La Francesa",
+      "price": "$11.800",
+      "tag": "LA FRANCESA 🥖",
+      "image": "frontend/images/products/Zona Franca/b18.webp",
+      "description": "Burger + queso Gouda + queso azul + cebolla caramelizada + champiñones. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b19",
+      "code": "B19",
+      "name": "La “36”",
+      "price": "$11.800",
+      "tag": "¡DISFRÚTALA! 🍔",
+      "image": "frontend/images/products/Zona Franca/b19.webp",
+      "description": "Burger + queso Cheddar + tocino + aros de cebolla + pepinillos + salsa BBQ + huevo. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-b22",
+      "code": "B22",
+      "name": "Club Veggie",
+      "price": "$10.500",
+      "tag": "CLUB VEGGIE 🌿",
+      "image": "frontend/images/products/Zona Franca/b22.webp",
+      "description": "Burger + queso Cheddar + lechuga + tomate + pepinillos + salsa club. Incluye papas fritas rústicas."
+    },
+    {
+      "id": "zf-cc",
+      "code": "CC",
+      "name": "Classic Chicken",
+      "price": "$7.900",
+      "tag": "¡DISFRÚTALA! 🍗",
+      "image": "frontend/images/products/Zona Franca/classic chicken.webp",
+      "description": "Milanesa de pollo + tomate + lechuga + súper mayonesa + papas fritas."
+    },
+    {
+      "id": "zf-ac",
+      "code": "AC",
+      "name": "American Chicken",
+      "price": "$7.900",
+      "tag": "¡PÍDELA AHORA! 🛎️",
+      "image": "frontend/images/products/Zona Franca/american chicken.webp",
+      "description": "Milanesa de pollo + queso Cheddar + tocino + salsa BBQ + papas fritas."
+    }
+  ],
+  "snacks": [
+    {
+      "id": "zf-k1",
+      "code": "K1",
+      "name": "Aros de cebolla apanados",
+      "price": "$3.500",
+      "tag": "CRUJIENTES 🧅",
+      "image": "frontend/images/products/Zona Franca/k1.webp",
+      "description": "Aros de cebolla apanados."
+    },
+    {
+      "id": "zf-k2",
+      "code": "K2",
+      "name": "Aros con Salsa",
+      "price": "$4.000",
+      "tag": "SALSAS EXTRAS 🍯",
+      "image": "frontend/images/products/Zona Franca/k2.webp",
+      "description": "Aros de cebolla apanados con salsa BBQ, Cheddar o mostaza miel."
+    },
+    {
+      "id": "zf-k7",
+      "code": "K7",
+      "name": "Papas fritas rústicas",
+      "price": "$5.500",
+      "tag": "CLÁSICAS 🍟",
+      "image": "frontend/images/products/Zona Franca/k7.webp",
+      "description": "Papas fritas rústicas."
+    },
+    {
+      "id": "zf-k8",
+      "code": "K8",
+      "name": "Mix papas + aros",
+      "price": "$5.500",
+      "tag": "PURA FIESTA 🎉",
+      "image": "frontend/images/products/Zona Franca/k8.webp",
+      "description": "Mix de papas fritas rústicas + aros de cebolla apanados."
+    },
+    {
+      "id": "zf-k10",
+      "code": "K10",
+      "name": "Papas provenzal",
+      "price": "$6.000",
+      "tag": "AROMÁTICAS 🧄",
+      "image": "frontend/images/products/Zona Franca/k10.webp",
+      "description": "Papas fritas a la provenzal: papas rústicas + ajo + perejil."
+    },
+    {
+      "id": "zf-k12",
+      "code": "K12",
+      "name": "Papas cheddar tocino pepinillo",
+      "price": "$6.500",
+      "tag": "SABOR INTENSO 🥓",
+      "image": "frontend/images/products/Zona Franca/k12.webp",
+      "description": "Papas fritas con salsa Cheddar + tocino chips + pepinillos agridulces."
+    },
+    {
+      "id": "zf-k13",
+      "code": "K13",
+      "name": "Papas queso crema y tocino",
+      "price": "$6.500",
+      "tag": "CREMOSAS 🥓",
+      "image": "frontend/images/products/Zona Franca/k13.webp",
+      "description": "Papas fritas con queso crema + tocino chips."
+    }
+  ],
+  "sandwiches": [
+    {
+      "id": "zf-s1",
+      "code": "S1",
+      "name": "Baguette de Tocino",
+      "price": "$9.200",
+      "tag": "FRESO & CRUNCHY 🥗",
+      "image": "frontend/images/products/Zona Franca/s1.webp",
+      "description": "Baguette de tocino + lechuga + tomate."
+    },
+    {
+      "id": "zf-s2",
+      "code": "S2",
+      "name": "Baguette de Huevo Revuelto",
+      "price": "$6.000",
+      "tag": "HUEVO & SABOR 🍳",
+      "image": "frontend/images/products/Zona Franca/s2.webp",
+      "description": "Baguette de tocino + huevo revuelto."
+    },
+    {
+      "id": "zf-s3",
+      "code": "S3",
+      "name": "Baguette de Queso y Huevo",
+      "price": "$6.500",
+      "tag": "QUESO & HUEVO 🧀",
+      "image": "frontend/images/products/Zona Franca/s3 baguette de queso y jamón.webp",
+      "description": "Baguette de queso + huevo."
+    }
+  ]
+}

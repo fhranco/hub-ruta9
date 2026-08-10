@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" class="lite-mode">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>RUTA 9 • Vitrina Completa Zona Franca</title>
+    <!-- Estilos Premium Vanilla CSS -->
+    <link rel="stylesheet" href="frontend/style.css?v=111">
+</head>
+<body class="theme-gourmet screen-mix branch-zf lite-mode">
+
+    <!-- BANNER DE ADVERTENCIA PARA PROTOCOLO FILE:// -->
+    <div id="protocol-warning" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(220, 38, 38, 0.95); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 15px 25px; z-index: 999999; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: bold; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; max-width: 90%; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+        <span style="font-size: 1.1rem;">⚠️ PROTOCOLO DE ARCHIVO DETECTADO (file://)</span>
+        <span style="font-weight: normal; color: rgba(255,255,255,0.85); line-height: 1.4;">
+            Estás abriendo esta pantalla directamente desde el disco duro. Ábrela a través del servidor local.
+        </span>
+        <a href="http://localhost:8000/r9-zf.html" id="protocol-link" style="color: #fbbf24; text-decoration: underline; margin-top: 4px; font-weight: 800; text-transform: uppercase; font-size: 11px;">
+            Hacer clic aquí para abrir a través de http://localhost:8000/r9-zf.html
+        </a>
+    </div>
+
+    <!-- INSIGNIA DE RECONOCIMIENTO SUCURSAL ZONA FRANCA -->
+    <div class="branch-badge-tag">
+        SUCURSAL ZONA FRANCA • MENÚ COMPLETO
+    </div>
+
+    <!-- BARRA DE PROGRESO DE 5 SEGUNDOS ULTRA-LIVIANA -->
+    <div class="lite-progress-bar-container">
+        <div class="lite-progress-bar-fill"></div>
+    </div>
+
+    <!-- CONTENEDOR CENTRAL DE LA APLICACIÓN -->
+    <div class="app-container">
+
+        <!-- CABECERA: LOGOTIPO -->
+        <header class="main-header">
+            <img src="frontend/images/logo/Logo-ruta9.png" alt="Ruta 9 Gourmet Logo" />
+        </header>
+
+        <!-- MAIN PRODUCT SHOWCASE (CENTRO PANTALLA) -->
+        <div class="main-showcase">
+            <div class="floating-burger-wrapper" id="product-card">
+                <!-- PLACA IZQUIERDA: CÓDIGO -->
+                <div id="product-code" class="product-code-plate">ZF</div>
+
+                <!-- Imagen principal con onerror fallback -->
+                <img id="product-img" 
+                     src="frontend/images/products/Zona Franca/b1.webp" 
+                     alt="Ruta 9 Zona Franca Product" 
+                     class="main-hero-image"
+                     onerror="window.handleImageError && window.handleImageError(this)" />
+            </div>
+        </div>
+
+        <!-- PIE DE PÁGINA: CAROUSEL Y TEXTOS -->
+        <footer class="footer-container">
+            <!-- Miniaturas Izquierdas -->
+            <div class="thumbnail-group">
+                <button onclick="selectProduct(0)" id="thumb-prod-1" class="thumbnail-card">
+                    <img src="frontend/images/products/Zona Franca/b1.webp" alt="Thumb 1" onerror="window.handleImageError && window.handleImageError(this)" />
+                </button>
+                <button onclick="selectProduct(1)" id="thumb-prod-2" class="thumbnail-card">
+                    <img src="frontend/images/products/Zona Franca/b2.webp" alt="Thumb 2" onerror="window.handleImageError && window.handleImageError(this)" />
+                </button>
+            </div>
+            
+            <!-- Bloque de Información Central Exclusiva -->
+            <div class="center-info-block">
+                <h2 id="product-name" class="product-title">Menú Zona Franca</h2>
+                <div id="product-price" class="product-price-plate text-accent">$8.200</div>
+                <p id="product-desc" class="product-description">
+                    Cargando menú completo de Zona Franca...
+                </p>
+                <div id="product-tag" class="product-tag-sticker glass-badge">MENÚ COMPLETO 👑</div>
+                
+                <!-- STICKER ANIMADO POP-UP DE SABOR -->
+                <div id="flavor-pop-badge" class="flavor-pop-badge">
+                    <span class="pop-icon">👑</span>
+                    <span id="flavor-pop-text" class="pop-text">¡100% GOURMET!</span>
+                </div>
+            </div>
+            
+            <!-- Miniaturas Derechas -->
+            <div class="thumbnail-group align-right">
+                <button onclick="selectProduct(2)" id="thumb-prod-3" class="thumbnail-card">
+                    <img src="frontend/images/products/Zona Franca/b3.webp" alt="Thumb 3" onerror="window.handleImageError && window.handleImageError(this)" />
+                </button>
+                <button onclick="selectProduct(3)" id="thumb-prod-4" class="thumbnail-card">
+                    <img src="frontend/images/products/Zona Franca/mes.webp" alt="Thumb 4" onerror="window.handleImageError && window.handleImageError(this)" />
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- OVERLAY DE INICIO EN PANTALLA COMPLETA -->
+    <div id="fullscreen-welcome" onclick="startShowcaseFullscreen()" class="welcome-portal">
+        <div class="welcome-card">
+            <img src="frontend/images/logo/Logo-ruta9.png" alt="Ruta 9 Gourmet Logo" />
+            <h1 class="welcome-title">RUTA 9 • ZONA FRANCA COMPLETO</h1>
+            <p class="welcome-text">
+                Toca en cualquier parte para activar la exhibición completa de la sucursal Zona Franca.
+            </p>
+            <button class="welcome-btn">INICIAR SHOWCASE 📺</button>
+        </div>
+    </div>
+
+    <script>
+        function selectProduct(index) {
+            if (window.showcaseController) {
+                window.showcaseController.nextProduct(index);
+            }
+        }
+        function startShowcaseFullscreen() {
+            const docEl = document.documentElement;
+            if (docEl.requestFullscreen) {
+                docEl.requestFullscreen().catch(err => console.log(err));
+            } else if (docEl.webkitRequestFullscreen) {
+                docEl.webkitRequestFullscreen();
+            }
+            const welcome = document.getElementById('fullscreen-welcome');
+            if (welcome) {
+                welcome.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    welcome.remove();
+                }, 750);
+            }
+        }
+
+        if (window.location.protocol === 'file:') {
+            const warning = document.getElementById('protocol-warning');
+            const link = document.getElementById('protocol-link');
+            if (warning && link) {
+                const filename = window.location.pathname.split('/').pop() || 'r9-zf.html';
+                link.href = `http://localhost:8000/${filename}`;
+                link.textContent = `Hacer clic aquí para abrir a través de http://localhost:8000/${filename}`;
+                warning.style.display = 'flex';
+            }
+        }
+
+        // Forzar el parámetro ?branch=zf si no está presente en la URL
+        if (!window.location.search.includes('branch=zf') && !window.location.search.includes('local=zf')) {
+            const separator = window.location.search ? '&' : '?';
+            window.history.replaceState(null, '', window.location.pathname + window.location.search + separator + 'branch=zf');
+        }
+    </script>
+
+    <!-- CONTROLADOR EXCLUSIVO ZONA FRANCA — MENÚ COMPLETO (MIX RÍTMICO) -->
+    <script src="frontend/app-r9-mix-zf.js?v=4"></script>
+</body>
+</html>

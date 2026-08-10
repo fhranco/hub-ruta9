@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-neutral-950 text-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUTA 9 • Control Panel Administrador</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        brand: ['Syne', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        .glass-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 p-6 flex flex-col justify-between">
+
+    <!-- BANNER DE ADVERTENCIA PARA PROTOCOLO FILE:// -->
+    <div id="protocol-warning" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(220, 38, 38, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 15px 25px; z-index: 999999; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: bold; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; max-width: 90%; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+        <span style="font-size: 1.1rem;">⚠️ PROTOCOLO DE ARCHIVO DETECTADO (file://)</span>
+        <span style="font-weight: normal; color: rgba(255,255,255,0.85); line-height: 1.4;">
+            Estás abriendo este panel directamente desde el disco duro. Para que la sincronización en tiempo real funcione entre múltiples navegadores y dispositivos, debes abrirlo a través del servidor local.
+        </span>
+        <a href="http://localhost:8000/admin.html" id="protocol-link" style="color: #fbbf24; text-decoration: underline; margin-top: 4px; font-weight: 800; text-transform: uppercase; tracking-wider; font-size: 11px;">
+            Hacer clic aquí para abrir a través de http://localhost:8000/admin.html
+        </a>
+    </div>
+
+    <!-- CABECERA -->
+    <header class="text-center space-y-2 mb-6">
+        <span class="inline-block px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-500 text-neutral-950">
+            ADMIN PANEL CONTROL MULTI-PANTALLA
+        </span>
+        <div class="flex justify-center text-[10px] font-bold text-neutral-400">
+            <a href="hub.html" class="hover:text-amber-400 transition uppercase tracking-wider">🏠 Volver al Portal de Integración</a>
+        </div>
+        <h1 class="text-2xl lg:text-3xl font-black uppercase tracking-wider font-brand text-white">
+            RUTA 9 • CONTROL EN VIVO
+        </h1>
+        <p class="text-xs text-neutral-400 max-w-md mx-auto">
+            Elige la pantalla que deseas controlar a continuación. Las actualizaciones se reflejarán instantáneamente en cada monitor en tiempo real.
+        </p>
+    </header>
+
+    <!-- SEGMENTED TABS PARA SELECCIONAR PANTALLA -->
+    <div class="max-w-xl w-full mx-auto mb-6 grid grid-cols-3 gap-2 bg-neutral-900/60 p-1.5 border border-white/5 rounded-2xl">
+        <button onclick="switchTab('burgers')" id="tab-burgers" class="bg-amber-500 text-neutral-950 font-black text-xs uppercase tracking-widest py-3 rounded-xl transition duration-300 shadow active:scale-95">
+            Burgers 🍔 (P1)
+        </button>
+        <button onclick="switchTab('snacks')" id="tab-snacks" class="text-neutral-400 font-black text-xs uppercase tracking-widest py-3 rounded-xl transition duration-300 hover:text-white active:scale-95">
+            Snacks 🍟 (P2)
+        </button>
+        <button onclick="switchTab('sandwiches')" id="tab-sandwiches" class="text-neutral-400 font-black text-xs uppercase tracking-widest py-3 rounded-xl transition duration-300 hover:text-white active:scale-95">
+            Sándwiches 🥪 (P3)
+        </button>
+    </div>
+
+    <!-- PANEL CENTRAL -->
+    <main class="max-w-xl w-full mx-auto flex-grow space-y-6">
+
+        <!-- SECCIÓN 1: SELECCIÓN Y EDICIÓN DE PRODUCTO -->
+        <section class="glass-card p-6 rounded-3xl space-y-4 shadow-xl">
+            <div class="flex items-center space-x-2 border-b border-white/10 pb-3 mb-2">
+                <span class="text-lg" id="section-icon">🍔</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-amber-400 font-brand" id="section-title">Modificar Hamburguesas en Tiempo Real</h2>
+            </div>
+
+            <!-- Seleccionar Producto -->
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Seleccionar Producto en Vitrina</label>
+                <select id="prod-select" onchange="onProductSelect()" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 cursor-pointer">
+                    <!-- Se cargará dinámicamente según la pestaña activa -->
+                </select>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Modificar Precio -->
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Nuevo Precio</label>
+                    <input type="text" id="prod-price" placeholder="Ej: $9.990" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+
+                <!-- Modificar Tag/Etiqueta -->
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Etiqueta (Tag)</label>
+                    <select id="prod-tag" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 cursor-pointer">
+                        <option value="PREMIUM ⭐">PREMIUM ⭐</option>
+                        <option value="MÁS PEDIDA 🏆">MÁS PEDIDA 🏆</option>
+                        <option value="AHUMADA 🔥">AHUMADA 🔥</option>
+                        <option value="ESPECIAL DE MAR 🍋">ESPECIAL DE MAR 🍋</option>
+                        <option value="SÚPER COLOSAL 👑">SÚPER COLOSAL 👑</option>
+                        <option value="100% VEGANA 🌿">100% VEGANA 🌿</option>
+                        <option value="CRUJIENTES 🍟">CRUJIENTES 🍟</option>
+                        <option value="OFERTA RELÁMPAGO ⚡">OFERTA RELÁMPAGO ⚡</option>
+                        <option value="AGOTADO 🚫">AGOTADO 🚫</option>
+                    </select>
+                </div>
+
+                <!-- Disponibilidad -->
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Disponibilidad</label>
+                    <select id="prod-available" class="w-full bg-neutral-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 cursor-pointer">
+                        <option value="true" selected>✅ Habilitado</option>
+                        <option value="false">🚫 Agotado (Desactivar)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="grid grid-cols-2 gap-4 pt-2">
+                <button onclick="updateProduct()" class="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-lg active:scale-95">
+                    Aplicar Cambios ⚡
+                </button>
+                <button onclick="triggerFlashOffer()" class="w-full bg-orange-700/60 hover:bg-orange-600 transition text-white font-black text-xs uppercase tracking-wider py-3.5 rounded-xl shadow-lg border border-orange-500/20 active:scale-95">
+                    Oferta Flash (15 min) ⏳
+                </button>
+            </div>
+        </section>
+
+
+
+        <!-- SECCIÓN 4: MANTENIMIENTO DE DISPOSITIVOS -->
+        <section class="glass-card p-6 rounded-3xl space-y-4 shadow-xl border-blue-500/20">
+            <div class="flex items-center space-x-2 border-b border-white/10 pb-3 mb-2">
+                <span class="text-lg">📺</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-blue-400 font-brand">Mantenimiento de Pantallas</h2>
+            </div>
+            
+            <p class="text-[10px] text-neutral-400">
+                Fuerza una recarga completa de la caché y del navegador en todos los televisores y pantallas del local de forma remota e instantánea.
+            </p>
+
+            <button onclick="triggerRemoteReload()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-lg active:scale-95">
+                Forzar Recarga Remota de Pantallas 🔄
+            </button>
+        </section>
+
+        <!-- SECCIÓN 5: PRUEBA DE SINCRONIZACIÓN EN TIEMPO REAL -->
+        <section class="glass-card p-6 rounded-3xl space-y-4 shadow-xl border-red-500/40">
+            <div class="flex items-center space-x-2 border-b border-white/10 pb-3 mb-2">
+                <span class="text-lg">🟥</span>
+                <h2 class="font-bold text-sm uppercase tracking-wider text-red-500 font-brand">Prueba de Conexión Instantánea</h2>
+            </div>
+            
+            <p class="text-[10px] text-neutral-400">
+                Envía un destello rojo de prueba a todas las pantallas para verificar visualmente que la conexión en tiempo real funciona instantáneamente.
+            </p>
+
+            <button onclick="triggerFlashRed()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider py-3.5 rounded-xl transition shadow-lg active:scale-95">
+                Simular Pantalla Roja de Prueba 🟥
+            </button>
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="text-center text-[10px] text-neutral-500 uppercase tracking-widest pt-8">
+        Ruta 9 Gourmet Realtime Engine • Local Offline Mode
+    </footer>
+
+    <!-- LÓGICA DE CONTROL DEL BROADCAST CHANNEL -->
+    <script>
+        // Inicializar el canal de transmisión offline (fallback local)
+        const channel = new BroadcastChannel('ruta9_showcase');
+
+        // Configuración de conexión al Relay Server local (Cross-Browser / Cross-Device)
+        const relayHost = window.location.hostname || 'localhost';
+        const isLocal = relayHost === 'localhost' || 
+                        relayHost === '127.0.0.1' || 
+                        relayHost.startsWith('192.168.') || 
+                        relayHost.startsWith('10.') || 
+                        relayHost.startsWith('172.');
+
+        const relayPort = window.location.port || '8000';
+        const relayUrl = `http://${relayHost}:${relayPort}/api/command`;
+
+        async function sendToRelay(payload) {
+            // 1. Enviar al Relay local si estamos en entorno local
+            if (isLocal) {
+                try {
+                    await fetch(relayUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (e) {
+                    console.warn('⚠️ [Relay local] Error de conexión:', e);
+                }
+            }
+
+            // 2. Enviar a la Nube (ntfy.sh) para sincronización cross-device global
+            try {
+                const channelName = 'ruta9_gourmet_showcase_sync';
+                await fetch(`https://ntfy.sh/${channelName}`, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                console.log('📡 [Cloud Relay] Evento enviado a la nube.');
+            } catch (e) {
+                console.warn('⚠️ [Cloud Relay] Error enviando a la nube:', e);
+            }
+        }
+
+        // Estado del administrador
+        let activeTab = 'burgers'; // 'burgers', 'snacks' o 'sandwiches'
+
+        // Catálogos cargados dinámicamente
+        let burgers = [];
+        let snacks = [];
+        let sandwiches = [];
+
+        // Cargar catálogo desde JSON central
+        async function loadCatalog() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const branch = urlParams.get('local') || urlParams.get('branch');
+                const catalogFile = branch === 'zf' ? 'frontend/catalog-zf.json' : 'frontend/catalog.json';
+                
+                console.log(`📦 Administrador intentando cargar catálogo desde: ${catalogFile}`);
+                const response = await fetch(catalogFile);
+                const data = await response.json();
+                burgers = data.burgers || [];
+                snacks = data.snacks || [];
+                sandwiches = data.sandwiches || [];
+                renderProductDropdown();
+            } catch (e) {
+                console.error("❌ Error cargando catálogo central:", e);
+            }
+        }
+
+        // Poblar el dropdown de productos al iniciar
+        window.onload = () => {
+            loadCatalog();
+        };
+
+        // Cambiar entre pestañas
+        function switchTab(tab) {
+            if (activeTab === tab) return;
+            activeTab = tab;
+
+            const tabBurgers = document.getElementById('tab-burgers');
+            const tabSnacks = document.getElementById('tab-snacks');
+            const tabSandwiches = document.getElementById('tab-sandwiches');
+            const sectionIcon = document.getElementById('section-icon');
+            const sectionTitle = document.getElementById('section-title');
+
+            const activeClass = "bg-amber-500 text-neutral-950 font-black text-xs uppercase tracking-widest py-3 rounded-xl transition duration-300 shadow active:scale-95";
+            const inactiveClass = "text-neutral-400 font-black text-xs uppercase tracking-widest py-3 rounded-xl transition duration-300 hover:text-white active:scale-95";
+
+            tabBurgers.className = inactiveClass;
+            tabSnacks.className = inactiveClass;
+            tabSandwiches.className = inactiveClass;
+
+            if (activeTab === 'burgers') {
+                tabBurgers.className = activeClass;
+                sectionIcon.textContent = "🍔";
+                sectionTitle.textContent = "Modificar Hamburguesas en Tiempo Real";
+            } else if (activeTab === 'snacks') {
+                tabSnacks.className = activeClass;
+                sectionIcon.textContent = "🍟";
+                sectionTitle.textContent = "Modificar Snacks & Picoteos en Tiempo Real";
+            } else {
+                tabSandwiches.className = activeClass;
+                sectionIcon.textContent = "🥪";
+                sectionTitle.textContent = "Modificar Sándwiches Gourmet en Tiempo Real";
+            }
+
+            renderProductDropdown();
+        }
+
+        // Renderizar los productos correspondientes a la pestaña activa en el select
+        function renderProductDropdown() {
+            const select = document.getElementById('prod-select');
+            select.innerHTML = ''; // Limpiar
+
+            let currentCatalog;
+            if (activeTab === 'burgers') {
+                currentCatalog = burgers;
+            } else if (activeTab === 'snacks') {
+                currentCatalog = snacks;
+            } else {
+                currentCatalog = sandwiches;
+            }
+
+            currentCatalog.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `${p.code} - ${p.name}`;
+                select.appendChild(opt);
+            });
+
+            onProductSelect();
+        }
+
+        function onProductSelect() {
+            document.getElementById('prod-price').placeholder = "Modificar precio";
+            document.getElementById('prod-price').value = "";
+        }
+
+        // Emitir actualización de producto
+        function updateProduct() {
+            const id = document.getElementById('prod-select').value;
+            let currentCatalog;
+            if (activeTab === 'burgers') {
+                currentCatalog = burgers;
+            } else if (activeTab === 'snacks') {
+                currentCatalog = snacks;
+            } else {
+                currentCatalog = sandwiches;
+            }
+            const current = currentCatalog.find(p => p.id === id);
+            if (!current) return;
+            const price = document.getElementById('prod-price').value.trim() || "$4.990";
+            const tag = document.getElementById('prod-tag').value;
+            const isAvailable = document.getElementById('prod-available').value === "true";
+
+            // Actualizar localmente en memoria
+            current.price = price;
+            current.tag = tag;
+            current.is_available = isAvailable;
+
+            // BroadcastChannel (local offline) y Relay local
+            const payload = {
+                table: 'products',
+                event: 'UPDATE',
+                record: { 
+                    id: current.id, 
+                    name: current.name, 
+                    price, 
+                    tag, 
+                    code: current.code,
+                    image: current.image, 
+                    description: current.description,
+                    is_available: isAvailable
+                }
+            };
+            channel.postMessage(payload);
+            sendToRelay(payload);
+            try { localStorage.setItem('ruta9_realtime_event', JSON.stringify({ ...payload, _ts: Date.now() })); } catch(e) {}
+            
+            let screenNum = 1;
+            if (activeTab === 'snacks') screenNum = 2;
+            else if (activeTab === 'sandwiches') screenNum = 3;
+
+            console.log(`⚡ Actualización enviada a Pantalla (${screenNum}):`, payload);
+            alert(`¡Enviado! ${current.name} actualizada a ${price} (${isAvailable ? 'Habilitado' : 'Agotado'}) en Pantalla ${screenNum}.`);
+        }
+
+        // Emitir oferta flash
+        function triggerFlashOffer() {
+            const id = document.getElementById('prod-select').value;
+            let currentCatalog;
+            if (activeTab === 'burgers') {
+                currentCatalog = burgers;
+            } else if (activeTab === 'snacks') {
+                currentCatalog = snacks;
+            } else {
+                currentCatalog = sandwiches;
+            }
+            const current = currentCatalog.find(p => p.id === id);
+            if (!current) return;
+            const price = document.getElementById('prod-price').value.trim() || "$3.990";
+            const endsAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+            
+            // Actualizar localmente
+            current.price = price;
+            current.tag = 'TIEMPO LIMITADO ⚡';
+            current.endsAt = endsAt;
+
+            // BroadcastChannel y Relay local
+            const payload = {
+                table: 'products',
+                event: 'UPDATE',
+                record: {
+                    id: current.id,
+                    name: current.name,
+                    price: price,
+                    tag: 'TIEMPO LIMITADO ⚡',
+                    code: current.code,
+                    image: current.image,
+                    description: current.description,
+                    endsAt
+                }
+            };
+
+            channel.postMessage(payload);
+            sendToRelay(payload);
+            try { localStorage.setItem('ruta9_realtime_event', JSON.stringify({ ...payload, _ts: Date.now() })); } catch(e) {}
+            
+            let screenNum = 1;
+            if (activeTab === 'snacks') screenNum = 2;
+            else if (activeTab === 'sandwiches') screenNum = 3;
+
+            console.log("⚡ Oferta flash enviada:", payload);
+            alert(`¡Oferta Flash activada en Pantalla ${screenNum} para ${current.name}!`);
+        }
+
+
+        // Forzar recarga remota en todas las pantallas
+        function triggerRemoteReload() {
+            const payload = {
+                table: 'screen_command',
+                event: 'UPDATE',
+                record: {
+                    command: 'RELOAD'
+                }
+            };
+            channel.postMessage(payload);
+            sendToRelay(payload);
+            try { localStorage.setItem('ruta9_realtime_event', JSON.stringify({ ...payload, _ts: Date.now() })); } catch(e) {}
+            console.log('🔄 Enviando comando de recarga remota a pantallas...', payload);
+            alert('¡Comando enviado! Todas las pantallas conectadas se recargarán en los próximos milisegundos.');
+        }
+
+        // Forzar destello rojo de prueba en tiempo real (TRIPLE CANAL)
+        function triggerFlashRed() {
+            const payload = {
+                table: 'screen_command',
+                event: 'UPDATE',
+                record: {
+                    command: 'FLASH_RED'
+                }
+            };
+
+            console.log('🟥 Enviando comando FLASH_RED por 3 canales...');
+
+            // CANAL 0: Relay Server SSE (Cross-Browser / Cross-Device)
+            sendToRelay(payload);
+
+            // CANAL 1: BroadcastChannel (pestañas del mismo navegador)
+            try {
+                channel.postMessage(payload);
+                console.log('  ✅ Canal 1 (BroadcastChannel): enviado');
+            } catch (e) {
+                console.warn('  ⚠️ Canal 1 (BroadcastChannel): falló', e.message);
+            }
+
+            // CANAL 2: localStorage (más compatible, funciona en TODOS los navegadores)
+            // El evento 'storage' se dispara en las otras pestañas automáticamente.
+            // Además, el polling de 500ms en app.js lo detectará en Smart TVs.
+            try {
+                const lsPayload = { ...payload, _ts: Date.now() };
+                localStorage.setItem('ruta9_realtime_event', JSON.stringify(lsPayload));
+                console.log('  ✅ Canal 2 (localStorage): enviado');
+            } catch (e) {
+                console.warn('  ⚠️ Canal 2 (localStorage): falló', e.message);
+            }
+
+            console.log('🟥 Comando FLASH_RED emitido por todos los canales disponibles.');
+        }
+
+        // Verificar protocolo file://
+        if (window.location.protocol === 'file:') {
+            const warning = document.getElementById('protocol-warning');
+            const link = document.getElementById('protocol-link');
+            if (warning && link) {
+                const filename = window.location.pathname.split('/').pop() || 'admin.html';
+                link.href = `http://localhost:8000/${filename}`;
+                link.textContent = `Hacer clic aquí para abrir a través de http://localhost:8000/${filename}`;
+                warning.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
