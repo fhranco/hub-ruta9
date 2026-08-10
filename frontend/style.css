@@ -1265,7 +1265,7 @@ body.theme-wellness .bottom-carousel-bar {
 
 /* Desactivar flotación y sombras pesadas en la hamburguesa principal */
 .lite-mode .floating-burger-wrapper {
-    animation: none !important;
+    animation: none;
 }
 .lite-mode .main-hero-image {
     filter: none !important; /* Quitar drop-shadow que consume GPU */
