@@ -1586,8 +1586,8 @@ body.theme-wellness .bottom-carousel-bar {
     margin: 0 !important;
 }
 .lite-mode .main-header img {
-    height: 7.5rem !important; /* Logo 50% más grande */
-    max-height: 15vh !important;
+    height: 5.5rem !important; /* Reducido a tamaño estándar gourmet para evitar desplazamientos */
+    max-height: 10vh !important;
 }
 
 /* Textos (Nombre, precio e ingredientes) a la izquierda */
